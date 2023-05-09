@@ -8,7 +8,7 @@ The CMRxRecon Challenge is a part of the 26th International Conference on Medica
 [Website](https://cmrxrecon.github.io/) |
 [Dataset](https://www.synapse.org/#!Synapse:syn51386469/wiki/) |
 [GitHub](https://github.com/CmrxRecon/CMRxRecon/) |
-[Publications](#Publication references)
+[Publications](## Publication references)
 
 ## Motivation
 This challenge aims to establish a platform for fast CMR image reconstruction and provide a benchmark dataset that enables the broad research community to promote advances in this area of research.
@@ -49,8 +49,10 @@ The code is provided to support reproducible research. If the code is giving syn
 
 ## Publication references
 You are free to use and/or refer to the CMRxRecon challenge and datasets in your own research after the embargo period (Dec 2023), provided that you cite the following manuscripts: 
+
 Reference of the imaging acquisition protocol: 
 1. Wang C, Li Y, Lv J, Jin J, Hu X, Kuang X, Chen W, Wang H. Recommendation for Cardiac Magnetic Resonance Imaging-Based Phenotypic Study: Imaging Part. Phenomics. 2021, 1(4): 151-170. 
+
 Other reference (optional for citation):
 1. Wang C, Jang J, Neisius U, Nezafat M, Fahmy A, Kang J, Rodriguez J, Goddu B, Pierce P, Berg S, Zhang J, Wang XY, Nezafat R. Black blood myocardial T2 mapping. Magnetic resonance in medicine. 2019, 81(1): 153-166. 
 2. Lyu J, Li G, Wang C, Qin C, Wang S, Qin J. Region-focused multi-view transformer-based generative adversarial network for cardiac cine MRI reconstruction[J]. Medical Image Analysis, 2023: 102760. https://doi.org/10.1016/j.media.2023.102760
