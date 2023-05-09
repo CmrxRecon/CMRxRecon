@@ -8,7 +8,7 @@ The CMRxRecon Challenge is a part of the 26th International Conference on Medica
 [Website](https://cmrxrecon.github.io/) |
 [Dataset](https://www.synapse.org/#!Synapse:syn51386469/wiki/) |
 [GitHub](https://github.com/CmrxRecon/CMRxRecon/) |
-[Publications](## Publication references)
+[Publications](#Publication-references)
 
 ## Motivation
 This challenge aims to establish a platform for fast CMR image reconstruction and provide a benchmark dataset that enables the broad research community to promote advances in this area of research.
@@ -23,10 +23,10 @@ This repository contains Matlab code for data loaders, subsampling functions, ev
 The ‘CMRxRecon’ challenge include two tasks: 
 1) Cine reconstruction
 The aim of task 1 is to reduce the readouts and address the image degradation due to motions caused by voluntary breath-holds or cardiac arrhythmia. The final goal will be real-time cine imaging. 
-![Task 2](https://github.com/CmrxRecon/CMRxRecon/Cine.jpg)
+![Task 2](https://github.com/CmrxRecon/CMRxRecon/Cine.png)
 2) T1/T2 mapping
 The aim of task 2 is to improve the T1 and T2 mapping estimation accuracy by reducing the readouts and address the image degradation due to motions and under-sampled reconstructions.
-![Task 1](https://github.com/CmrxRecon/CMRxRecon/Mapping.jpg)
+![Task 1](https://github.com/CmrxRecon/CMRxRecon/Mapping.png)
 
 ## Documentation
 
