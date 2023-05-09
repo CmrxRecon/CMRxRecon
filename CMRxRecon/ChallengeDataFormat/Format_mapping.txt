@@ -1,0 +1,308 @@
+Summary of data format:
+
+0.Directory of challenge data
+
+Challenge
+- MultiCoil
+-- Cine
+--- TrainingSet
+---- AccFactor04
+----- P001
+------ cine_lax.mat
+------ cine_lax_mask.mat
+------ cine_sax.mat
+------ cine_sax_mask.mat
+----- P002
+---- AccFactor08
+----- P001
+----- P002
+---- AccFactor10
+----- P001
+----- P002
+---- FullSample
+----- P001
+----- P002
+--- ValidationSet
+---- AccFactor04
+----- P001
+------ cine_lax.mat
+------ cine_lax_mask.mat
+------ cine_sax.mat
+------ cine_sax_mask.mat
+----- P002
+---- AccFactor08
+----- P001
+----- P002
+---- AccFactor10
+----- P001
+----- P002
+-- Mapping
+--- TrainingSet
+---- AccFactor04
+----- P001
+------ T1map.mat
+------ T1map_mask.mat
+------ T1map.csv
+------ T2map.mat
+------ T2map_mask.mat
+------ T2map.csv
+----- P002
+---- AccFactor08
+----- P001
+----- P002
+---- AccFactor10
+----- P001
+----- P002
+---- FullSample
+----- P001
+----- P002
+--- ValidationSet
+---- AccFactor04
+----- P001
+------ T1map.mat
+------ T1map_mask.mat
+------ T1map.csv
+------ T2map.mat
+------ T2map_mask.mat
+------ T2map.csv
+----- P002
+---- AccFactor08
+----- P001
+----- P002
+---- AccFactor10
+----- P001
+----- P002
+
+-SingleCoil
+-- Cine
+--- TrainingSet
+---- AccFactor04
+----- P001
+------ cine_lax.mat
+------ cine_lax_mask.mat
+------ cine_sax.mat
+------ cine_sax_mask.mat
+----- P002
+---- AccFactor08
+----- P001
+----- P002
+---- AccFactor10
+----- P001
+----- P002
+---- FullSample
+----- P001
+----- P002
+---- SegmentROI
+----- P001
+------ cine_lax
+------ cine_lax_forlabel.gz.nii
+------ cine_sax
+------ cine_sax_forlabel.gz.nii
+----- P002
+--- ValidationSet
+---- AccFactor04
+----- P001
+------ cine_lax.mat
+------ cine_lax_mask.mat
+------ cine_sax.mat
+------ cine_sax_mask.mat
+----- P002
+---- AccFactor08
+----- P001
+----- P002
+---- AccFactor10
+----- P001
+----- P002
+-- Mapping
+--- TrainingSet
+---- AccFactor04
+----- P001
+------ T1map.mat
+------ T1map_mask.mat
+------ T1map.csv
+------ T2map.mat
+------ T2map_mask.mat
+------ T2map.csv
+----- P002
+---- AccFactor08
+----- P001
+----- P002
+---- AccFactor10
+----- P001
+----- P002
+---- FullSample
+----- P001
+----- P002
+---- SegmentROI
+----- P001
+------ T1map
+------ T1map_forlabel.gz.nii
+------ T2map
+------ T2map_forlabel.gz.nii
+----- P002
+--- ValidationSet
+---- AccFactor04
+----- P001
+------ T1map.mat
+------ T1map_mask.mat
+------ T1map.csv
+------ T2map.mat
+------ T2map_mask.mat
+------ T2map.csv
+----- P002
+---- AccFactor08
+----- P001
+----- P002
+---- AccFactor10
+----- P001
+----- P002
+
+1. Multi-coil dataData: 
+Data: T1map.mat 
+# mapping with short axis view (including several slices within the sz dimension). 
+# variable name:  
+# "kspace_full" for full kspace 
+# "kspace_sub04" for subsampling factor of 4 along ky 
+# "kspace_sub08" for subsampling factor of 8 along ky 
+# "kspace_sub10" for subsampling factor of 10 along ky 
+# data type: complex kspace data with the dimensions (kx,ky,kc,kz,w), the central 24 lines (ky) are always full sampled to be used as calibration lines 
+-kx: matrix size in x-axis (kspace) 
+-ky: matrix size in y-axis (kspace) 
+-sc: coil array number (compressed to 10) 
+-sz: slice number (short axis view) 
+-w: number of weighted images   
+
+Data: T1map_mask.mat 
+# subsampling mask with short axis view, the mask is fixed among different sc, sz and w. 
+# variable name:  
+# "mask04" for subsampling factor of 4 along ky 
+# "mask08" for subsampling factor of 8 along ky 
+# "mask10" for subsampling factor of 10 along ky 
+# data type: binary data with the dimensions (kx,ky), the central 24 lines (ky) are always full sampled to be used as calibration lines 
+-kx: matrix size in x-axis (kspace) 
+-ky: matrix size in y-axis (kspace)   
+
+Data: T1map.csv
+# record the inversion time for MOLLI (ms)
+
+Data: T1map
+# snapshot images for different slices (start with s) and weighting (start with t)
+
+
+Data: T2map.mat 
+# mapping with short axis view (including several slices within the sz dimension). 
+# variable name:  
+# "kspace_full" for full kspace 
+# "kspace_sub04" for subsampling factor of 4 along ky 
+# "kspace_sub08" for subsampling factor of 8 along ky 
+# "kspace_sub10" for subsampling factor of 10 along ky 
+# data type: complex kspace data with the dimensions (kx,ky,kc,kz,w), the central 24 lines (ky) are always full sampled to be used as calibration lines 
+-kx: matrix size in x-axis (kspace) 
+-ky: matrix size in y-axis (kspace) 
+-sc: coil array number (compressed to 10) 
+-sz: slice number (short axis view) 
+-w: number of weighted images   
+
+Data: T2map_mask.mat 
+# subsampling mask with short axis view, the mask is fixed among different sc, sz and w. 
+# variable name:  
+# "mask04" for subsampling factor of 4 along ky 
+# "mask08" for subsampling factor of 8 along ky 
+# "mask10" for subsampling factor of 10 along ky 
+# data type: binary data with the dimensions (kx,ky), the central 24 lines (ky) are always full sampled to be used as calibration lines 
+-kx: matrix size in x-axis (kspace) 
+-ky: matrix size in y-axis (kspace)   
+
+Data: T2map.csv
+# record the echo time for T2prep-SSFP (ms)
+
+Data: T2map
+# snapshot images for different slices (start with s) and weighting (start with t)
+
+
+2. Single-coil dataData: 
+Data: T1map.mat 
+# mapping with short axis view (including several slices within the sz dimension). 
+# variable name:  
+# "kspace_single_full" for full kspace # "kspace_single_sub04" for subsampling factor of 4 along ky 
+# "kspace_single_sub08" for subsampling factor of 8 along ky 
+# "kspace_single_sub10" for subsampling factor of 10 along ky 
+# data type: complex kspace data with the dimensions (kx,ky,kz,t), the central 24 lines (ky) are always full sampled to be used as calibration lines 
+-kx: matrix size in x-axis (kspace) 
+-ky: matrix size in y-axis (kspace) 
+-sz: slice number (short axis view) 
+-w: number of weighted images   
+
+Data: T1map_mask.mat 
+# subsampling mask with short axis view, the mask is fixed among different sc, sz and w. 
+# variable name:  
+# "mask04" for subsampling factor of 4 along ky 
+# "mask08" for subsampling factor of 8 along ky 
+# "mask10" for subsampling factor of 10 along ky 
+# data type: binary data with the dimensions (kx,ky), the central 24 lines (ky) are always full sampled to be used as calibration lines 
+-kx: matrix size in x-axis (kspace) 
+-ky: matrix size in y-axis (kspace)   
+
+Data: T1map.csv
+# record the inversion time for MOLLI (ms)
+
+Data: T1map
+# snapshot images for different slices (start with s) and weighting (start with t)
+
+Data: T1map_forlabel.nii.gz 
+# reconstructed images in nifti format (for reference of manual annotation) 
+-sx: matrix size in x-axis 
+-sy: matrix size in y-axis 
+-sz: slice number (short axis view)   
+
+Data: T1map_label.nii.gz 
+# manual annotated labels in nifti format 
+# label 1 for left ventricle 
+# label 2 for myocardium 
+# label 3 for right ventricle  
+-sx: matrix size in x-axis 
+-sy: matrix size in y-axis 
+-sz: slice number (short axis view) 
+
+Data: T2map.mat 
+# mapping with short axis view (including several slices within the sz dimension). 
+# variable name:  
+# "kspace_single_full" for full kspace # "kspace_single_sub04" for subsampling factor of 4 along ky 
+# "kspace_single_sub08" for subsampling factor of 8 along ky 
+# "kspace_single_sub10" for subsampling factor of 10 along ky 
+# data type: complex kspace data with the dimensions (kx,ky,kz,t), the central 24 lines (ky) are always full sampled to be used as calibration lines 
+-kx: matrix size in x-axis (kspace) 
+-ky: matrix size in y-axis (kspace) 
+-sz: slice number (short axis view) 
+-w: number of weighted images   
+
+Data: T2map_mask.mat 
+# subsampling mask with short axis view, the mask is fixed among different sc, sz and w. 
+# variable name:  
+# "mask04" for subsampling factor of 4 along ky 
+# "mask08" for subsampling factor of 8 along ky 
+# "mask10" for subsampling factor of 10 along ky 
+# data type: binary data with the dimensions (kx,ky), the central 24 lines (ky) are always full sampled to be used as calibration lines 
+-kx: matrix size in x-axis (kspace) 
+-ky: matrix size in y-axis (kspace)   
+
+Data: T2map.csv
+# record the echo time for T2prep-SSFP (ms)
+
+Data: T2map
+# snapshot images for different slices (start with s) and weighting (start with t)
+
+Data: T2map_forlabel.nii.gz 
+# reconstructed images in nifti format (for reference of manual annotation) 
+-sx: matrix size in x-axis 
+-sy: matrix size in y-axis 
+-sz: slice number (short axis view)   
+
+Data: T2map_label.nii.gz 
+# manual annotated labels in nifti format 
+# label 1 for left ventricle 
+# label 2 for myocardium 
+# label 3 for right ventricle  
+-sx: matrix size in x-axis 
+-sy: matrix size in y-axis 
+-sz: slice number (short axis view) 

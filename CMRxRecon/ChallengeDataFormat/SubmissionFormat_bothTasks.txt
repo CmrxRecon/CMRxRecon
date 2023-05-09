@@ -1,0 +1,96 @@
+Summary of data format:
+
+Submission
+- MultiCoil
+-- Cine
+--- ValidationSet
+---- AccFactor04
+----- P001
+------ cine_lax.mat
+------ cine_sax.mat
+----- P002
+---- AccFactor08
+----- P001
+----- P002
+---- AccFactor10
+----- P001
+----- P002
+-- Mapping
+--- ValidationSet
+---- AccFactor04
+----- P001
+------ T1map.mat
+------ T2map.mat
+----- P002
+---- AccFactor08
+----- P001
+----- P002
+---- AccFactor10
+----- P001
+----- P002
+
+-SingleCoil
+-- Cine
+--- ValidationSet
+---- AccFactor04
+----- P001
+------ cine_lax.mat
+------ cine_sax.mat
+----- P002
+---- AccFactor08
+----- P001
+----- P002
+---- AccFactor10
+----- P001
+----- P002
+-- Mapping
+--- ValidationSet
+---- AccFactor04
+----- P001
+------ T1map.mat
+------ T2map.mat
+----- P002
+---- AccFactor08
+----- P001
+----- P002
+---- AccFactor10
+----- P001
+----- P002
+
+- readme.txt
+# Team name: CMRchellenger#1 (replace it with your team name)
+# you can write down anything here that you hope to let us know!
+
+# name your results with the same name as the original data name!
+# Task 1 and Task 2 can be submitted separately or together! They will be separately assessed.
+# For testing phase, change the name of "ValidationSet" to "TestSet"! Keep other the same!
+
+# During validation phase
+% to reduce the computing burden and space, we only evaluate the central 2 slices
+% For cine: use the first 3 time frames for ranking!
+% For mapping: we need all weighting for ranking!
+% crop the middle 1/6 of the original image for ranking
+
+# You can use the function we provided to help you to convert your data for ranking. 
+# You don't need to perform reduction during test phase!!!
+
+function img4ranking = run4Ranking(img)
+
+[sx,sy,~,sz,~] = size(img);
+reconImg = img(:,:,round(sz/2)-1:round(sz/2),1:3);
+img4ranking = single(crop(abs(reconImg),[round(sx/3),round(sy/2),2,3]));
+
+return
+% img: complex images reconstructed with the dimensions (sx,sy,sz,t/w) in
+% original size
+% -sx: matrix size in x-axis
+% -sy: matrix size in y-axis
+% -sz: slice number (short axis view); slice group (long axis view)
+% -t/w: time frame/weighting
+
+% img4ranking: "single" format images with the dimensions (sx/3,sy/2,2,3)
+% -sx/3: 1/3 of the matrix size in x-axis
+% -sy/2: half of the matrix size in y-axis
+% img4ranking is the data we used for ranking!!!
+
+
