@@ -21,8 +21,7 @@ AFname = {'kspace_sub04','kspace_sub08','kspace_sub10'};
 basePath = '/Users/apple/Seafile/TempData/Cardiac/RawData/ChallengeData/';
 mainSavePath = '/Users/apple/Seafile/TempData/Cardiac/RawData/Submission_SENSE/';
 % % put your data directory here
-% basePath = '/media/nas/Seafile_Storage/Raw_data/Processed/CardiacImage/';
-% mainSavePath = '/media/nas/Seafile_Storage/Raw_data/MICCAIChallenge2023/';
+
 
 %% parameter meaning
 % type = 0 means full kspace data
