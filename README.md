@@ -41,6 +41,8 @@ Training data include fully sampled k-space data, auto-calibration lines (ACS, 2
 Validation data include under-sampled k-space data with acceleration factors of 4, 8 and 10, sampling mask, and auto-calibration lines (ACS, 24 lines) will be provided. We will withhold the ground truth images of the validation set.
 Test data include under-sampled k-space data with acceleration factors of 4, 8 and 10, sampling mask, auto-calibration lines (ACS, 24 lines) and reconstructed images. The test data will not be available to the participants.
 
+![Image](https://github.com/CmrxRecon/CMRxRecon/blob/main/Image.jpg)
+
 ## Package Structure
 * `CMRxReconDemo`: contains parallel imaging reconstruction code
 * `ChallengeDataFormat`: Explain the challenge data and the rules for data submission
