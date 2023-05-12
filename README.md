@@ -57,9 +57,13 @@ The code is provided to support reproducible research. If the code is giving syn
 You are free to use and/or refer to the CMRxRecon challenge and datasets in your own research after the embargo period (Dec 2023), provided that you cite the following manuscripts: 
 
 Reference of the imaging acquisition protocol: 
-1. Wang C, Li Y, Lv J, Jin J, Hu X, Kuang X, Chen W, Wang H. Recommendation for Cardiac Magnetic Resonance Imaging-Based Phenotypic Study: Imaging Part. Phenomics. 2021, 1(4): 151-170. 
+1. Wang C, Li Y, Lv J, et al. Recommendation for Cardiac Magnetic Resonance Imaging-Based Phenotypic Study: Imaging Part. Phenomics. 2021, 1(4): 151-170. https://doi.org/10.1007/s43657-021-00018-x
 
 Other reference (optional for citation):
-1. Wang C, Jang J, Neisius U, Nezafat M, Fahmy A, Kang J, Rodriguez J, Goddu B, Pierce P, Berg S, Zhang J, Wang XY, Nezafat R. Black blood myocardial T2 mapping. Magnetic resonance in medicine. 2019, 81(1): 153-166. 
-2. Lyu J, Li G, Wang C, Qin C, Wang S, Qin J. Region-focused multi-view transformer-based generative adversarial network for cardiac cine MRI reconstruction[J]. Medical Image Analysis, 2023: 102760. https://doi.org/10.1016/j.media.2023.102760
-3.  Wang S, Qin C, Wang C, et al. The Extreme Cardiac MRI Analysis Challenge under Respiratory Motion (CMRxMotion). arXiv preprint arXiv:2210.06385, 2022. 
+1. Wang C, Jang J, Neisius U, et al. Black blood myocardial T2 mapping. Magnetic resonance in medicine. 2019, 81(1): 153-166. https://doi.org/10.1002/mrm.27360
+2. Lyu J, Li G, Wang C, et al. Region-focused multi-view transformer-based generative adversarial network for cardiac cine MRI reconstruction[J]. Medical Image Analysis, 2023: 102760. https://doi.org/10.1016/j.media.2023.102760
+3. Qin C, Schlemper J, Caballero J, et al. Convolutional recurrent neural networks for dynamic MR image reconstruction. IEEE transactions on medical imaging, 2018, 38(1): 280-290. https://doi.org/10.1109/TMI.2018.2863670.
+4. Qin C, Duan J, Hammernik K, et al. Complementary time‐frequency domain networks for dynamic parallel MR image reconstruction. Magnetic Resonance in Medicine, 2021, 86(6): 3274-3291. https://doi.org/10.1002/mrm.28917
+5. Lyu J, Tong X, Wang C. Parallel Imaging With a Combination of SENSE and Generative Adversarial Networks (GAN). Quantitative Imaging in Medicine and Surgery. 2020, 10(12): 2260–2273. https://doi.org/10.21037/qims-20-518.
+6. Lyu J, Sui B, Wang C, et al. DuDoCAF: Dual-Domain Cross-Attention Fusion with Recurrent Transformer for Fast Multi-contrast MR Imaging. International Conference on Medical Image Computing and Computer-Assisted Intervention. Springer, Cham, 2022: 474-484.
+7. Wang S, Qin C, Wang C, et al. The Extreme Cardiac MRI Analysis Challenge under Respiratory Motion (CMRxMotion). arXiv preprint arXiv:2210.06385, 2022. 
