@@ -141,10 +141,6 @@ def unzipfile(fpth):
         unzip(fpth)
         # raise Exception('Not supported format')
 
-def save_to_csv(data, filename):
-    df = pd.DataFrame(data)
-    df.to_csv(filename, index=False)
-
 def compare_folder_names(path1, path2):
     # 获取路径1和路径2下的所有文件夹名字
     if os.path.exists(path2):
@@ -175,7 +171,7 @@ def check_mat_files(path1, path2, folder_names, Sub_Task):
     openfail_files = []
 
     complete_folders = folder_names.copy()
-
+    num_file = 0
     for folder_name in folder_names:
         folder_path1 = os.path.join(path1, folder_name)
         folder_path2 = os.path.join(path2, folder_name)
@@ -197,6 +193,7 @@ def check_mat_files(path1, path2, folder_names, Sub_Task):
             try:
                 dataset1 = loadmat(mat_file_path1)
                 dataset2 = loadmat(mat_file_path2)
+                num_file = num_file+1
             except OSError as e:
                 openfail_files.append(mat_file_path2)
                 complete_folders.remove(folder_name)
@@ -212,33 +209,14 @@ def check_mat_files(path1, path2, folder_names, Sub_Task):
         else:
             complete_folders.remove(folder_name)
 
-    return flag, different_sizes, missing_files, openfail_files, complete_folders
+    return flag, different_sizes, missing_files, openfail_files, complete_folders, num_file
 
 def check_mapping_data(gt_dir, target_dir, R, Sub_Task):
     flag_folder, missing_folders, submit_folders = compare_folder_names(gt_dir, target_dir)
-    flag_file, different_sizes, missing_files, openfail_files, complete_folders = check_mat_files(gt_dir, target_dir,
+    flag_file, different_sizes, missing_files, openfail_files, complete_folders, num_file = check_mat_files(gt_dir, target_dir,
                                                                                                   submit_folders,Sub_Task)
-    # # 存储 flag_folder 到 CSV
-    # save_to_csv({'flag_folder': [flag_folder]}, Sub_Task + '_flag_folder_'+R+'.csv')
-    # # 存储 missing_folders 到 CSV
-    # if missing_folders:
-    #     save_to_csv({'missing_folders': missing_folders}, Sub_Task + '_missing_folders_'+R+'.csv')
-    # # 存储 flag_file 到 CSV
-    # save_to_csv({'flag_file': [flag_file]}, Sub_Task + '_flag_file_'+R+'.csv')
-    # # 存储 different_sizes 到 CSV
-    # if different_sizes:
-    #     save_to_csv({'different_sizes': different_sizes}, Sub_Task + '_different_sizes_'+R+'.csv')
-    # # 存储 missing_files 到 CSV
-    # if missing_files:
-    #     save_to_csv({'missing_files': missing_files}, Sub_Task + '_missing_files_'+R+'.csv')
-    # # 存储 openfail_files 到 CSV
-    # if openfail_files:
-    #     save_to_csv({'openfail_files': openfail_files}, Sub_Task + '_openfail_files_'+R+'.csv')
-    # # 存储 complete_folders 到 CSV
-    # if complete_folders:
-    #     save_to_csv({'complete_folders': complete_folders}, Sub_Task + '_complete_folders_'+R+'.csv')
 
-    return flag_folder, missing_folders, submit_folders, flag_file, different_sizes, missing_files, openfail_files, complete_folders
+    return flag_folder, missing_folders, submit_folders, flag_file, different_sizes, missing_files, openfail_files, complete_folders, num_file
 
 def CalValue(complete_folders, gt_dir, target_dir, Sub_Task):
     target_dir = target_dir
@@ -336,13 +314,54 @@ def main():
         gt_dir08 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor08')
         gt_dir10 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor10')
     
-        flag_folder_lax_04_Single, missing_folders_lax_04_Single, submit_folders_lax_04_Single, flag_file_lax_04_Single, different_sizes_lax_04_Single, missing_files_lax_04_Single, openfail_files_lax_04_Single, complete_folders_lax_04_Single = check_mapping_data(
+        flag_folder_lax_04_Single, missing_folders_lax_04_Single, submit_folders_lax_04_Single, flag_file_lax_04_Single, different_sizes_lax_04_Single, missing_files_lax_04_Single, openfail_files_lax_04_Single, complete_folders_lax_04_Single, num_file_lax_04_Single = check_mapping_data(
             gt_dir04, target_dir04, '04', Sub_Task)
-        flag_folder_lax_08_Single, missing_folders_lax_08_Single, submit_folders_lax_08_Single, flag_file_lax_08_Single, different_sizes_lax_08_Single, missing_files_lax_08_Single, openfail_files_lax_08_Single, complete_folders_lax_08_Single = check_mapping_data(
+        flag_folder_lax_08_Single, missing_folders_lax_08_Single, submit_folders_lax_08_Single, flag_file_lax_08_Single, different_sizes_lax_08_Single, missing_files_lax_08_Single, openfail_files_lax_08_Single, complete_folders_lax_08_Single, num_file_lax_08_Single = check_mapping_data(
             gt_dir08, target_dir08, '08', Sub_Task)
-        flag_folder_lax_10_Single, missing_folders_lax_10_Single, submit_folders_lax_10_Single, flag_file_lax_10_Single, different_sizes_lax_10_Single, missing_files_lax_10_Single, openfail_files_lax_10_Single, complete_folders_lax_10_Single = check_mapping_data(
+        flag_folder_lax_10_Single, missing_folders_lax_10_Single, submit_folders_lax_10_Single, flag_file_lax_10_Single, different_sizes_lax_10_Single, missing_files_lax_10_Single, openfail_files_lax_10_Single, complete_folders_lax_10_Single, num_file_lax_10_Single = check_mapping_data(
             gt_dir10, target_dir10, '10', Sub_Task)
-    
+
+        variables = {
+            "lax_04_Single": {
+                "flag_folder": flag_folder_lax_04_Single,
+                "missing_folders": missing_folders_lax_04_Single,
+                "submit_folders": submit_folders_lax_04_Single,
+                "flag_file": flag_file_lax_04_Single,
+                "different_sizes": different_sizes_lax_04_Single,
+                "missing_files": missing_files_lax_04_Single,
+                "openfail_files": openfail_files_lax_04_Single,
+                "complete_folders": complete_folders_lax_04_Single,
+                "num_file": num_file_lax_04_Single
+            },
+            "lax_08_Single": {
+                "flag_folder": flag_folder_lax_08_Single,
+                "missing_folders": missing_folders_lax_08_Single,
+                "submit_folders": submit_folders_lax_08_Single,
+                "flag_file": flag_file_lax_08_Single,
+                "different_sizes": different_sizes_lax_08_Single,
+                "missing_files": missing_files_lax_08_Single,
+                "openfail_files": openfail_files_lax_08_Single,
+                "complete_folders": complete_folders_lax_08_Single,
+                "num_file": num_file_lax_08_Single
+            },
+            "lax_10_Single": {
+                "flag_folder": flag_folder_lax_10_Single,
+                "missing_folders": missing_folders_lax_10_Single,
+                "submit_folders": submit_folders_lax_10_Single,
+                "flag_file": flag_file_lax_10_Single,
+                "different_sizes": different_sizes_lax_10_Single,
+                "missing_files": missing_files_lax_10_Single,
+                "openfail_files": openfail_files_lax_10_Single,
+                "complete_folders": complete_folders_lax_10_Single,
+                "num_file": num_file_lax_10_Single
+            }
+        }
+
+        filename = "Lax_Single_Flags.json"
+
+        with open(filename, mode='w') as file:
+            json.dump(variables, file)
+
         psnr_results_lax_04_Single, ssim_results_lax_04_Single, nmse_results_lax_04_Single = CalValue(
             complete_folders_lax_04_Single, gt_dir04, target_dir04, Sub_Task)
         psnr_results_lax_08_Single, ssim_results_lax_08_Single, nmse_results_lax_08_Single = CalValue(
@@ -361,12 +380,54 @@ def main():
         gt_dir08 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor08')
         gt_dir10 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor10')
     
-        flag_folder_lax_04_Multi, missing_folders_lax_04_Multi, submit_folders_lax_04_Multi, flag_file_lax_04_Multi, different_sizes_lax_04_Multi, missing_files_lax_04_Multi, openfail_files_lax_04_Multi, complete_folders_lax_04_Multi = check_mapping_data(
+        flag_folder_lax_04_Multi, missing_folders_lax_04_Multi, submit_folders_lax_04_Multi, flag_file_lax_04_Multi, different_sizes_lax_04_Multi, missing_files_lax_04_Multi, openfail_files_lax_04_Multi, complete_folders_lax_04_Multi, num_file_lax_04_Multi = check_mapping_data(
             gt_dir04, target_dir04, '04', Sub_Task)
-        flag_folder_lax_08_Multi, missing_folders_lax_08_Multi, submit_folders_lax_08_Multi, flag_file_lax_08_Multi, different_sizes_lax_08_Multi, missing_files_lax_08_Multi, openfail_files_lax_08_Multi, complete_folders_lax_08_Multi = check_mapping_data(
+        flag_folder_lax_08_Multi, missing_folders_lax_08_Multi, submit_folders_lax_08_Multi, flag_file_lax_08_Multi, different_sizes_lax_08_Multi, missing_files_lax_08_Multi, openfail_files_lax_08_Multi, complete_folders_lax_08_Multi, num_file_lax_08_Multi = check_mapping_data(
             gt_dir08, target_dir08, '08', Sub_Task)
-        flag_folder_lax_10_Multi, missing_folders_lax_10_Multi, submit_folders_lax_10_Multi, flag_file_lax_10_Multi, different_sizes_lax_10_Multi, missing_files_lax_10_Multi, openfail_files_lax_10_Multi, complete_folders_lax_10_Multi = check_mapping_data(
+        flag_folder_lax_10_Multi, missing_folders_lax_10_Multi, submit_folders_lax_10_Multi, flag_file_lax_10_Multi, different_sizes_lax_10_Multi, missing_files_lax_10_Multi, openfail_files_lax_10_Multi, complete_folders_lax_10_Multi, num_file_lax_10_Multi = check_mapping_data(
             gt_dir10, target_dir10, '10', Sub_Task)
+
+        variables = {
+            "lax_04_Multi": {
+                "flag_folder": flag_folder_lax_04_Multi,
+                "missing_folders": missing_folders_lax_04_Multi,
+                "submit_folders": submit_folders_lax_04_Multi,
+                "flag_file": flag_file_lax_04_Multi,
+                "different_sizes": different_sizes_lax_04_Multi,
+                "missing_files": missing_files_lax_04_Multi,
+                "openfail_files": openfail_files_lax_04_Multi,
+                "complete_folders": complete_folders_lax_04_Multi,
+                "num_file": num_file_lax_04_Multi
+            },
+            "lax_08_Multi": {
+                "flag_folder": flag_folder_lax_08_Multi,
+                "missing_folders": missing_folders_lax_08_Multi,
+                "submit_folders": submit_folders_lax_08_Multi,
+                "flag_file": flag_file_lax_08_Multi,
+                "different_sizes": different_sizes_lax_08_Multi,
+                "missing_files": missing_files_lax_08_Multi,
+                "openfail_files": openfail_files_lax_08_Multi,
+                "complete_folders": complete_folders_lax_08_Multi,
+                "num_file": num_file_lax_08_Multi
+            },
+            "lax_10_Multi": {
+                "flag_folder": flag_folder_lax_10_Multi,
+                "missing_folders": missing_folders_lax_10_Multi,
+                "submit_folders": submit_folders_lax_10_Multi,
+                "flag_file": flag_file_lax_10_Multi,
+                "different_sizes": different_sizes_lax_10_Multi,
+                "missing_files": missing_files_lax_10_Multi,
+                "openfail_files": openfail_files_lax_10_Multi,
+                "complete_folders": complete_folders_lax_10_Multi,
+                "num_file": num_file_lax_10_Multi
+            }
+        }
+
+        filename = "Lax_Multi_Flags.json"
+
+        with open(filename, mode='w') as file:
+            json.dump(variables, file)
+
     
         psnr_results_lax_04_Multi, ssim_results_lax_04_Multi, nmse_results_lax_04_Multi = CalValue(
             complete_folders_lax_04_Multi, gt_dir04, target_dir04, Sub_Task)
@@ -376,25 +437,6 @@ def main():
     
         psnr_results_lax_10_Multi, ssim_results_lax_10_Multi, nmse_results_lax_10_Multi = CalValue(
             complete_folders_lax_10_Multi, gt_dir10, target_dir10, Sub_Task)
-    
-        psnr_lax_04 = np.mean(psnr_results_lax_04_Multi) if np.mean(psnr_results_lax_04_Multi) > np.mean(
-            psnr_results_lax_04_Single) else np.mean(psnr_results_lax_04_Single)
-        psnr_lax_08 = np.mean(psnr_results_lax_08_Multi) if np.mean(psnr_results_lax_08_Multi) > np.mean(
-            psnr_results_lax_08_Single) else np.mean(psnr_results_lax_08_Single)
-        psnr_lax_10 = np.mean(psnr_results_lax_10_Multi) if np.mean(psnr_results_lax_10_Multi) > np.mean(
-            psnr_results_lax_10_Single) else np.mean(psnr_results_lax_10_Single)
-        ssim_lax_04 = np.mean(ssim_results_lax_04_Multi) if np.mean(ssim_results_lax_04_Multi) > np.mean(
-            ssim_results_lax_04_Single) else np.mean(ssim_results_lax_04_Single)
-        ssim_lax_08 = np.mean(ssim_results_lax_08_Multi) if np.mean(ssim_results_lax_08_Multi) > np.mean(
-            ssim_results_lax_08_Single) else np.mean(ssim_results_lax_08_Single)
-        ssim_lax_10 = np.mean(ssim_results_lax_10_Multi) if np.mean(ssim_results_lax_10_Multi) > np.mean(
-            ssim_results_lax_10_Single) else np.mean(ssim_results_lax_10_Single)
-        nmse_lax_04 = np.mean(nmse_results_lax_04_Multi) if np.mean(nmse_results_lax_04_Multi) > np.mean(
-            nmse_results_lax_04_Single) else np.mean(nmse_results_lax_04_Single)
-        nmse_lax_08 = np.mean(nmse_results_lax_08_Multi) if np.mean(nmse_results_lax_08_Multi) > np.mean(
-            nmse_results_lax_08_Single) else np.mean(nmse_results_lax_08_Single)
-        nmse_lax_10 = np.mean(nmse_results_lax_10_Multi) if np.mean(nmse_results_lax_10_Multi) > np.mean(
-            nmse_results_lax_10_Single) else np.mean(nmse_results_lax_10_Single)
 
         psnr_lax_04 = get_mean_max_value(psnr_results_lax_04_Multi, psnr_results_lax_04_Single)
         psnr_lax_08 = get_mean_max_value(psnr_results_lax_08_Multi, psnr_results_lax_08_Single)
@@ -418,13 +460,54 @@ def main():
         gt_dir08 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor08')
         gt_dir10 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor10')
     
-        flag_folder_sax_04_Single, missing_folders_sax_04_Single, submit_folders_sax_04_Single, flag_file_sax_04_Single, different_sizes_sax_04_Single, missing_files_sax_04_Single, openfail_files_sax_04_Single, complete_folders_sax_04_Single = check_mapping_data(
+        flag_folder_sax_04_Single, missing_folders_sax_04_Single, submit_folders_sax_04_Single, flag_file_sax_04_Single, different_sizes_sax_04_Single, missing_files_sax_04_Single, openfail_files_sax_04_Single, complete_folders_sax_04_Single, num_file_sax_04_Single = check_mapping_data(
             gt_dir04, target_dir04, '04', Sub_Task)
-        flag_folder_sax_08_Single, missing_folders_sax_08_Single, submit_folders_sax_08_Single, flag_file_sax_08_Single, different_sizes_sax_08_Single, missing_files_sax_08_Single, openfail_files_sax_08_Single, complete_folders_sax_08_Single = check_mapping_data(
+        flag_folder_sax_08_Single, missing_folders_sax_08_Single, submit_folders_sax_08_Single, flag_file_sax_08_Single, different_sizes_sax_08_Single, missing_files_sax_08_Single, openfail_files_sax_08_Single, complete_folders_sax_08_Single, num_file_sax_08_Single = check_mapping_data(
             gt_dir08, target_dir08, '08', Sub_Task)
-        flag_folder_sax_10_Single, missing_folders_sax_10_Single, submit_folders_sax_10_Single, flag_file_sax_10_Single, different_sizes_sax_10_Single, missing_files_sax_10_Single, openfail_files_sax_10_Single, complete_folders_sax_10_Single = check_mapping_data(
+        flag_folder_sax_10_Single, missing_folders_sax_10_Single, submit_folders_sax_10_Single, flag_file_sax_10_Single, different_sizes_sax_10_Single, missing_files_sax_10_Single, openfail_files_sax_10_Single, complete_folders_sax_10_Single, num_file_sax_10_Single = check_mapping_data(
             gt_dir10, target_dir10, '10', Sub_Task)
-    
+
+        variables = {
+            "sax_04_Single": {
+                "flag_folder": flag_folder_sax_04_Single,
+                "missing_folders": missing_folders_sax_04_Single,
+                "submit_folders": submit_folders_sax_04_Single,
+                "flag_file": flag_file_sax_04_Single,
+                "different_sizes": different_sizes_sax_04_Single,
+                "missing_files": missing_files_sax_04_Single,
+                "openfail_files": openfail_files_sax_04_Single,
+                "complete_folders": complete_folders_sax_04_Single,
+                "num_file": num_file_sax_04_Single
+            },
+            "sax_08_Single": {
+                "flag_folder": flag_folder_sax_08_Single,
+                "missing_folders": missing_folders_sax_08_Single,
+                "submit_folders": submit_folders_sax_08_Single,
+                "flag_file": flag_file_sax_08_Single,
+                "different_sizes": different_sizes_sax_08_Single,
+                "missing_files": missing_files_sax_08_Single,
+                "openfail_files": openfail_files_sax_08_Single,
+                "complete_folders": complete_folders_sax_08_Single,
+                "num_file": num_file_sax_08_Single
+            },
+            "sax_10_Single": {
+                "flag_folder": flag_folder_sax_10_Single,
+                "missing_folders": missing_folders_sax_10_Single,
+                "submit_folders": submit_folders_sax_10_Single,
+                "flag_file": flag_file_sax_10_Single,
+                "different_sizes": different_sizes_sax_10_Single,
+                "missing_files": missing_files_sax_10_Single,
+                "openfail_files": openfail_files_sax_10_Single,
+                "complete_folders": complete_folders_sax_10_Single,
+                "num_file": num_file_sax_10_Single
+            }
+        }
+
+        filename = "Sax_Single_Flags.json"
+
+        with open(filename, mode='w') as file:
+            json.dump(variables, file)
+
         psnr_results_sax_04_Single, ssim_results_sax_04_Single, nmse_results_sax_04_Single = CalValue(
             complete_folders_sax_04_Single, gt_dir04, target_dir04, Sub_Task)
         psnr_results_sax_08_Single, ssim_results_sax_08_Single, nmse_results_sax_08_Single = CalValue(
@@ -443,12 +526,53 @@ def main():
         gt_dir08 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor08')
         gt_dir10 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor10')
     
-        flag_folder_sax_04_Multi, missing_folders_sax_04_Multi, submit_folders_sax_04_Multi, flag_file_sax_04_Multi, different_sizes_sax_04_Multi, missing_files_sax_04_Multi, openfail_files_sax_04_Multi, complete_folders_sax_04_Multi = check_mapping_data(
+        flag_folder_sax_04_Multi, missing_folders_sax_04_Multi, submit_folders_sax_04_Multi, flag_file_sax_04_Multi, different_sizes_sax_04_Multi, missing_files_sax_04_Multi, openfail_files_sax_04_Multi, complete_folders_sax_04_Multi, num_file_sax_04_Multi = check_mapping_data(
             gt_dir04, target_dir04, '04', Sub_Task)
-        flag_folder_sax_08_Multi, missing_folders_sax_08_Multi, submit_folders_sax_08_Multi, flag_file_sax_08_Multi, different_sizes_sax_08_Multi, missing_files_sax_08_Multi, openfail_files_sax_08_Multi, complete_folders_sax_08_Multi = check_mapping_data(
+        flag_folder_sax_08_Multi, missing_folders_sax_08_Multi, submit_folders_sax_08_Multi, flag_file_sax_08_Multi, different_sizes_sax_08_Multi, missing_files_sax_08_Multi, openfail_files_sax_08_Multi, complete_folders_sax_08_Multi, num_file_sax_08_Multi = check_mapping_data(
             gt_dir08, target_dir08, '08', Sub_Task)
-        flag_folder_sax_10_Multi, missing_folders_sax_10_Multi, submit_folders_sax_10_Multi, flag_file_sax_10_Multi, different_sizes_sax_10_Multi, missing_files_sax_10_Multi, openfail_files_sax_10_Multi, complete_folders_sax_10_Multi = check_mapping_data(
+        flag_folder_sax_10_Multi, missing_folders_sax_10_Multi, submit_folders_sax_10_Multi, flag_file_sax_10_Multi, different_sizes_sax_10_Multi, missing_files_sax_10_Multi, openfail_files_sax_10_Multi, complete_folders_sax_10_Multi, num_file_sax_10_Multi = check_mapping_data(
             gt_dir10, target_dir10, '10', Sub_Task)
+
+        variables = {
+            "sax_04_Multi": {
+                "flag_folder": flag_folder_sax_04_Multi,
+                "missing_folders": missing_folders_sax_04_Multi,
+                "submit_folders": submit_folders_sax_04_Multi,
+                "flag_file": flag_file_sax_04_Multi,
+                "different_sizes": different_sizes_sax_04_Multi,
+                "missing_files": missing_files_sax_04_Multi,
+                "openfail_files": openfail_files_sax_04_Multi,
+                "complete_folders": complete_folders_sax_04_Multi,
+                "num_file": num_file_sax_04_Multi
+            },
+            "sax_08_Multi": {
+                "flag_folder": flag_folder_sax_08_Multi,
+                "missing_folders": missing_folders_sax_08_Multi,
+                "submit_folders": submit_folders_sax_08_Multi,
+                "flag_file": flag_file_sax_08_Multi,
+                "different_sizes": different_sizes_sax_08_Multi,
+                "missing_files": missing_files_sax_08_Multi,
+                "openfail_files": openfail_files_sax_08_Multi,
+                "complete_folders": complete_folders_sax_08_Multi,
+                "num_file": num_file_sax_08_Multi
+            },
+            "sax_10_Multi": {
+                "flag_folder": flag_folder_sax_10_Multi,
+                "missing_folders": missing_folders_sax_10_Multi,
+                "submit_folders": submit_folders_sax_10_Multi,
+                "flag_file": flag_file_sax_10_Multi,
+                "different_sizes": different_sizes_sax_10_Multi,
+                "missing_files": missing_files_sax_10_Multi,
+                "openfail_files": openfail_files_sax_10_Multi,
+                "complete_folders": complete_folders_sax_10_Multi,
+                "num_file": num_file_sax_10_Multi
+            }
+        }
+
+        filename = "Sax_Multi_Flags.json"
+
+        with open(filename, mode='w') as file:
+            json.dump(variables, file)
     
         psnr_results_sax_04_Multi, ssim_results_sax_04_Multi, nmse_results_sax_04_Multi = CalValue(
             complete_folders_sax_04_Multi, gt_dir04, target_dir04, Sub_Task)
@@ -482,12 +606,53 @@ def main():
         gt_dir08 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor08')
         gt_dir10 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor10')
 
-        flag_folder_T1_04_Single, missing_folders_T1_04_Single, submit_folders_T1_04_Single, flag_file_T1_04_Single, different_sizes_T1_04_Single, missing_files_T1_04_Single, openfail_files_T1_04_Single, complete_folders_T1_04_Single = check_mapping_data(
+        flag_folder_T1_04_Single, missing_folders_T1_04_Single, submit_folders_T1_04_Single, flag_file_T1_04_Single, different_sizes_T1_04_Single, missing_files_T1_04_Single, openfail_files_T1_04_Single, complete_folders_T1_04_Single, num_file_T1_04_Single = check_mapping_data(
             gt_dir04, target_dir04, '04', Sub_Task)
-        flag_folder_T1_08_Single, missing_folders_T1_08_Single, submit_folders_T1_08_Single, flag_file_T1_08_Single, different_sizes_T1_08_Single, missing_files_T1_08_Single, openfail_files_T1_08_Single, complete_folders_T1_08_Single = check_mapping_data(
+        flag_folder_T1_08_Single, missing_folders_T1_08_Single, submit_folders_T1_08_Single, flag_file_T1_08_Single, different_sizes_T1_08_Single, missing_files_T1_08_Single, openfail_files_T1_08_Single, complete_folders_T1_08_Single, num_file_T1_08_Single = check_mapping_data(
             gt_dir08, target_dir08, '08', Sub_Task)
-        flag_folder_T1_10_Single, missing_folders_T1_10_Single, submit_folders_T1_10_Single, flag_file_T1_10_Single, different_sizes_T1_10_Single, missing_files_T1_10_Single, openfail_files_T1_10_Single, complete_folders_T1_10_Single = check_mapping_data(
+        flag_folder_T1_10_Single, missing_folders_T1_10_Single, submit_folders_T1_10_Single, flag_file_T1_10_Single, different_sizes_T1_10_Single, missing_files_T1_10_Single, openfail_files_T1_10_Single, complete_folders_T1_10_Single, num_file_T1_10_Single = check_mapping_data(
             gt_dir10, target_dir10, '10', Sub_Task)
+
+        data = {
+            "T1_04_Single": {
+                "flag_folder": flag_folder_T1_04_Single,
+                "missing_folders": missing_folders_T1_04_Single,
+                "submit_folders": submit_folders_T1_04_Single,
+                "flag_file": flag_file_T1_04_Single,
+                "different_sizes": different_sizes_T1_04_Single,
+                "missing_files": missing_files_T1_04_Single,
+                "openfail_files": openfail_files_T1_04_Single,
+                "complete_folders": complete_folders_T1_04_Single,
+                "num_file": num_file_T1_04_Single
+            },
+            "T1_08_Single": {
+                "flag_folder": flag_folder_T1_08_Single,
+                "missing_folders": missing_folders_T1_08_Single,
+                "submit_folders": submit_folders_T1_08_Single,
+                "flag_file": flag_file_T1_08_Single,
+                "different_sizes": different_sizes_T1_08_Single,
+                "missing_files": missing_files_T1_08_Single,
+                "openfail_files": openfail_files_T1_08_Single,
+                "complete_folders": complete_folders_T1_08_Single,
+                "num_file": num_file_T1_08_Single
+            },
+            "T1_10_Single": {
+                "flag_folder": flag_folder_T1_10_Single,
+                "missing_folders": missing_folders_T1_10_Single,
+                "submit_folders": submit_folders_T1_10_Single,
+                "flag_file": flag_file_T1_10_Single,
+                "different_sizes": different_sizes_T1_10_Single,
+                "missing_files": missing_files_T1_10_Single,
+                "openfail_files": openfail_files_T1_10_Single,
+                "complete_folders": complete_folders_T1_10_Single,
+                "num_file": num_file_T1_10_Single
+            }
+        }
+
+        filename = "T1_Single_Flags.json"
+
+        with open(filename, mode='w') as file:
+            json.dump(data, file)
 
         psnr_results_T1_04_Single, ssim_results_T1_04_Single, nmse_results_T1_04_Single = CalValue(
             complete_folders_T1_04_Single, gt_dir04, target_dir04, Sub_Task)
@@ -507,12 +672,54 @@ def main():
         gt_dir08 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor08')
         gt_dir10 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor10')
 
-        flag_folder_T1_04_Multi, missing_folders_T1_04_Multi, submit_folders_T1_04_Multi, flag_file_T1_04_Multi, different_sizes_T1_04_Multi, missing_files_T1_04_Multi, openfail_files_T1_04_Multi, complete_folders_T1_04_Multi = check_mapping_data(
+        flag_folder_T1_04_Multi, missing_folders_T1_04_Multi, submit_folders_T1_04_Multi, flag_file_T1_04_Multi, different_sizes_T1_04_Multi, missing_files_T1_04_Multi, openfail_files_T1_04_Multi, complete_folders_T1_04_Multi, num_file_T1_04_Multi = check_mapping_data(
             gt_dir04, target_dir04, '04', Sub_Task)
-        flag_folder_T1_08_Multi, missing_folders_T1_08_Multi, submit_folders_T1_08_Multi, flag_file_T1_08_Multi, different_sizes_T1_08_Multi, missing_files_T1_08_Multi, openfail_files_T1_08_Multi, complete_folders_T1_08_Multi = check_mapping_data(
+        flag_folder_T1_08_Multi, missing_folders_T1_08_Multi, submit_folders_T1_08_Multi, flag_file_T1_08_Multi, different_sizes_T1_08_Multi, missing_files_T1_08_Multi, openfail_files_T1_08_Multi, complete_folders_T1_08_Multi, num_file_T1_08_Multi = check_mapping_data(
             gt_dir08, target_dir08, '08', Sub_Task)
-        flag_folder_T1_10_Multi, missing_folders_T1_10_Multi, submit_folders_T1_10_Multi, flag_file_T1_10_Multi, different_sizes_T1_10_Multi, missing_files_T1_10_Multi, openfail_files_T1_10_Multi, complete_folders_T1_10_Multi = check_mapping_data(
+        flag_folder_T1_10_Multi, missing_folders_T1_10_Multi, submit_folders_T1_10_Multi, flag_file_T1_10_Multi, different_sizes_T1_10_Multi, missing_files_T1_10_Multi, openfail_files_T1_10_Multi, complete_folders_T1_10_Multi, num_file_T1_10_Multi = check_mapping_data(
             gt_dir10, target_dir10, '10', Sub_Task)
+
+        variables = {
+            "T1_04_Multi": {
+                "flag_folder": flag_folder_T1_04_Multi,
+                "missing_folders": missing_folders_T1_04_Multi,
+                "submit_folders": submit_folders_T1_04_Multi,
+                "flag_file": flag_file_T1_04_Multi,
+                "different_sizes": different_sizes_T1_04_Multi,
+                "missing_files": missing_files_T1_04_Multi,
+                "openfail_files": openfail_files_T1_04_Multi,
+                "complete_folders": complete_folders_T1_04_Multi,
+                "num_file": num_file_T1_04_Multi
+            },
+            "T1_08_Multi": {
+                "flag_folder": flag_folder_T1_08_Multi,
+                "missing_folders": missing_folders_T1_08_Multi,
+                "submit_folders": submit_folders_T1_08_Multi,
+                "flag_file": flag_file_T1_08_Multi,
+                "different_sizes": different_sizes_T1_08_Multi,
+                "missing_files": missing_files_T1_08_Multi,
+                "openfail_files": openfail_files_T1_08_Multi,
+                "complete_folders": complete_folders_T1_08_Multi,
+                "num_file": num_file_T1_08_Multi
+            },
+            "T1_10_Multi": {
+                "flag_folder": flag_folder_T1_10_Multi,
+                "missing_folders": missing_folders_T1_10_Multi,
+                "submit_folders": submit_folders_T1_10_Multi,
+                "flag_file": flag_file_T1_10_Multi,
+                "different_sizes": different_sizes_T1_10_Multi,
+                "missing_files": missing_files_T1_10_Multi,
+                "openfail_files": openfail_files_T1_10_Multi,
+                "complete_folders": complete_folders_T1_10_Multi,
+                "num_file": num_file_T1_10_Multi
+            }
+        }
+
+        filename = "T1_Multi_Flags.json"
+
+        with open(filename, mode='w') as file:
+            json.dump(variables, file)
+
 
         psnr_results_T1_04_Multi, ssim_results_T1_04_Multi, nmse_results_T1_04_Multi = CalValue(
             complete_folders_T1_04_Multi, gt_dir04, target_dir04, Sub_Task)
@@ -545,12 +752,53 @@ def main():
         gt_dir08 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor08')
         gt_dir10 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor10')
 
-        flag_folder_T2_04_Single, missing_folders_T2_04_Single, submit_folders_T2_04_Single, flag_file_T2_04_Single, different_sizes_T2_04_Single, missing_files_T2_04_Single, openfail_files_T2_04_Single, complete_folders_T2_04_Single = check_mapping_data(
+        flag_folder_T2_04_Single, missing_folders_T2_04_Single, submit_folders_T2_04_Single, flag_file_T2_04_Single, different_sizes_T2_04_Single, missing_files_T2_04_Single, openfail_files_T2_04_Single, complete_folders_T2_04_Single, num_file_T2_04_Single = check_mapping_data(
             gt_dir04, target_dir04, '04', Sub_Task)
-        flag_folder_T2_08_Single, missing_folders_T2_08_Single, submit_folders_T2_08_Single, flag_file_T2_08_Single, different_sizes_T2_08_Single, missing_files_T2_08_Single, openfail_files_T2_08_Single, complete_folders_T2_08_Single = check_mapping_data(
+        flag_folder_T2_08_Single, missing_folders_T2_08_Single, submit_folders_T2_08_Single, flag_file_T2_08_Single, different_sizes_T2_08_Single, missing_files_T2_08_Single, openfail_files_T2_08_Single, complete_folders_T2_08_Single, num_file_T2_08_Single = check_mapping_data(
             gt_dir08, target_dir08, '08', Sub_Task)
-        flag_folder_T2_10_Single, missing_folders_T2_10_Single, submit_folders_T2_10_Single, flag_file_T2_10_Single, different_sizes_T2_10_Single, missing_files_T2_10_Single, openfail_files_T2_10_Single, complete_folders_T2_10_Single = check_mapping_data(
+        flag_folder_T2_10_Single, missing_folders_T2_10_Single, submit_folders_T2_10_Single, flag_file_T2_10_Single, different_sizes_T2_10_Single, missing_files_T2_10_Single, openfail_files_T2_10_Single, complete_folders_T2_10_Single, num_file_T2_10_Single = check_mapping_data(
             gt_dir10, target_dir10, '10', Sub_Task)
+        variables = {
+            "T2_04_Single": {
+                "flag_folder": flag_folder_T2_04_Single,
+                "missing_folders": missing_folders_T2_04_Single,
+                "submit_folders": submit_folders_T2_04_Single,
+                "flag_file": flag_file_T2_04_Single,
+                "different_sizes": different_sizes_T2_04_Single,
+                "missing_files": missing_files_T2_04_Single,
+                "openfail_files": openfail_files_T2_04_Single,
+                "complete_folders": complete_folders_T2_04_Single,
+                "num_file": num_file_T2_04_Single
+            },
+            "T2_08_Single": {
+                "flag_folder": flag_folder_T2_08_Single,
+                "missing_folders": missing_folders_T2_08_Single,
+                "submit_folders": submit_folders_T2_08_Single,
+                "flag_file": flag_file_T2_08_Single,
+                "different_sizes": different_sizes_T2_08_Single,
+                "missing_files": missing_files_T2_08_Single,
+                "openfail_files": openfail_files_T2_08_Single,
+                "complete_folders": complete_folders_T2_08_Single,
+                "num_file": num_file_T2_08_Single
+            },
+            "T2_10_Single": {
+                "flag_folder": flag_folder_T2_10_Single,
+                "missing_folders": missing_folders_T2_10_Single,
+                "submit_folders": submit_folders_T2_10_Single,
+                "flag_file": flag_file_T2_10_Single,
+                "different_sizes": different_sizes_T2_10_Single,
+                "missing_files": missing_files_T2_10_Single,
+                "openfail_files": openfail_files_T2_10_Single,
+                "complete_folders": complete_folders_T2_10_Single,
+                "num_file": num_file_T2_10_Single
+            }
+        }
+
+        filename = "T2_Single_Flags.json"
+
+        with open(filename, mode='w') as file:
+            json.dump(variables, file)
+
 
         psnr_results_T2_04_Single, ssim_results_T2_04_Single, nmse_results_T2_04_Single = CalValue(
             complete_folders_T2_04_Single, gt_dir04, target_dir04, Sub_Task)
@@ -570,12 +818,53 @@ def main():
         gt_dir08 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor08')
         gt_dir10 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor10')
 
-        flag_folder_T2_04_Multi, missing_folders_T2_04_Multi, submit_folders_T2_04_Multi, flag_file_T2_04_Multi, different_sizes_T2_04_Multi, missing_files_T2_04_Multi, openfail_files_T2_04_Multi, complete_folders_T2_04_Multi = check_mapping_data(
+        flag_folder_T2_04_Multi, missing_folders_T2_04_Multi, submit_folders_T2_04_Multi, flag_file_T2_04_Multi, different_sizes_T2_04_Multi, missing_files_T2_04_Multi, openfail_files_T2_04_Multi, complete_folders_T2_04_Multi, num_file_T2_04_Multi = check_mapping_data(
             gt_dir04, target_dir04, '04', Sub_Task)
-        flag_folder_T2_08_Multi, missing_folders_T2_08_Multi, submit_folders_T2_08_Multi, flag_file_T2_08_Multi, different_sizes_T2_08_Multi, missing_files_T2_08_Multi, openfail_files_T2_08_Multi, complete_folders_T2_08_Multi = check_mapping_data(
+        flag_folder_T2_08_Multi, missing_folders_T2_08_Multi, submit_folders_T2_08_Multi, flag_file_T2_08_Multi, different_sizes_T2_08_Multi, missing_files_T2_08_Multi, openfail_files_T2_08_Multi, complete_folders_T2_08_Multi, num_file_T2_08_Multi = check_mapping_data(
             gt_dir08, target_dir08, '08', Sub_Task)
-        flag_folder_T2_10_Multi, missing_folders_T2_10_Multi, submit_folders_T2_10_Multi, flag_file_T2_10_Multi, different_sizes_T2_10_Multi, missing_files_T2_10_Multi, openfail_files_T2_10_Multi, complete_folders_T2_10_Multi = check_mapping_data(
+        flag_folder_T2_10_Multi, missing_folders_T2_10_Multi, submit_folders_T2_10_Multi, flag_file_T2_10_Multi, different_sizes_T2_10_Multi, missing_files_T2_10_Multi, openfail_files_T2_10_Multi, complete_folders_T2_10_Multi, num_file_T2_10_Multi = check_mapping_data(
             gt_dir10, target_dir10, '10', Sub_Task)
+
+        variables = {
+            "T2_04_Multi": {
+                "flag_folder": flag_folder_T2_04_Multi,
+                "missing_folders": missing_folders_T2_04_Multi,
+                "submit_folders": submit_folders_T2_04_Multi,
+                "flag_file": flag_file_T2_04_Multi,
+                "different_sizes": different_sizes_T2_04_Multi,
+                "missing_files": missing_files_T2_04_Multi,
+                "openfail_files": openfail_files_T2_04_Multi,
+                "complete_folders": complete_folders_T2_04_Multi,
+                "num_file": num_file_T2_04_Multi
+            },
+            "T2_08_Multi": {
+                "flag_folder": flag_folder_T2_08_Multi,
+                "missing_folders": missing_folders_T2_08_Multi,
+                "submit_folders": submit_folders_T2_08_Multi,
+                "flag_file": flag_file_T2_08_Multi,
+                "different_sizes": different_sizes_T2_08_Multi,
+                "missing_files": missing_files_T2_08_Multi,
+                "openfail_files": openfail_files_T2_08_Multi,
+                "complete_folders": complete_folders_T2_08_Multi,
+                "num_file": num_file_T2_08_Multi
+            },
+            "T2_10_Multi": {
+                "flag_folder": flag_folder_T2_10_Multi,
+                "missing_folders": missing_folders_T2_10_Multi,
+                "submit_folders": submit_folders_T2_10_Multi,
+                "flag_file": flag_file_T2_10_Multi,
+                "different_sizes": different_sizes_T2_10_Multi,
+                "missing_files": missing_files_T2_10_Multi,
+                "openfail_files": openfail_files_T2_10_Multi,
+                "complete_folders": complete_folders_T2_10_Multi,
+                "num_file": num_file_T2_10_Multi
+            }
+        }
+
+        filename = "T2_Multi_Flags.json"
+
+        with open(filename, mode='w') as file:
+            json.dump(variables, file)
 
         psnr_results_T2_04_Multi, ssim_results_T2_04_Multi, nmse_results_T2_04_Multi = CalValue(
             complete_folders_T2_04_Multi, gt_dir04, target_dir04, Sub_Task)
@@ -610,6 +899,18 @@ def main():
         nmse_10 = get_mean_value(nmse_sax_10, nmse_lax_10)
         nmse_mean = np.mean([nmse_04, nmse_08, nmse_10])
         scores = {
+            "num_file_Lax_04_Single": num_file_lax_04_Single,
+            "num_file_Lax_08_Single": num_file_lax_08_Single,
+            "num_file_Lax_10_Single": num_file_lax_10_Single,
+            "num_file_Sax_04_Single": num_file_sax_04_Single,
+            "num_file_Sax_08_Single": num_file_sax_08_Single,
+            "num_file_Sax_10_Single": num_file_sax_10_Single,
+            "num_file_Lax_04_Multi": num_file_lax_04_Multi,
+            "num_file_Lax_08_Multi": num_file_lax_08_Multi,
+            "num_file_Lax_10_Multi": num_file_lax_10_Multi,
+            "num_file_Sax_04_Multi": num_file_sax_04_Multi,
+            "num_file_Sax_08_Multi": num_file_sax_08_Multi,
+            "num_file_Sax_10_Multi": num_file_sax_10_Multi,
             "Single_Lax_04_PSNR": np.mean(psnr_results_lax_04_Single),
             "Single_Lax_08_PSNR": np.mean(psnr_results_lax_08_Single),
             "Single_Lax_10_PSNR": np.mean(psnr_results_lax_10_Single),
@@ -648,7 +949,9 @@ def main():
             "Multi_Sax_10_NMSE": np.mean(nmse_results_sax_10_Multi),
             "Cine_PSNR": psnr_mean,
             "Cine_SSIM": ssim_mean,
-            "Cine_NMSE": nmse_mean
+            "Cine_NMSE": nmse_mean,
+            "Num_Files": num_file_lax_04_Single + num_file_lax_08_Single + num_file_lax_10_Single + num_file_sax_04_Single + num_file_sax_08_Single + num_file_sax_10_Single +
+                         num_file_lax_04_Multi + num_file_lax_08_Multi + num_file_lax_10_Multi + num_file_sax_04_Multi + num_file_sax_08_Multi + num_file_sax_10_Multi
         }
     else:
         psnr_04 = get_mean_value(psnr_T1_04, psnr_T2_04)
@@ -664,6 +967,18 @@ def main():
         nmse_10 = get_mean_value(nmse_T1_10, nmse_T2_10)
         nmse_mean = np.mean([nmse_04, nmse_08, nmse_10])
         scores = {
+            "num_file_T1_04_Single": num_file_T1_04_Single,
+            "num_file_T1_08_Single": num_file_T1_08_Single,
+            "num_file_T1_10_Single": num_file_T1_10_Single,
+            "num_file_T2_04_Single": num_file_T2_04_Single,
+            "num_file_T2_08_Single": num_file_T2_08_Single,
+            "num_file_T2_10_Single": num_file_T2_10_Single,
+            "num_file_T1_04_Multi": num_file_T1_04_Multi,
+            "num_file_T1_08_Multi": num_file_T1_08_Multi,
+            "num_file_T1_10_Multi": num_file_T1_10_Multi,
+            "num_file_T2_04_Multi": num_file_T2_04_Multi,
+            "num_file_T2_08_Multi": num_file_T2_08_Multi,
+            "num_file_T2_10_Multi": num_file_T2_10_Multi,
             "Single_T1_04_PSNR": np.mean(psnr_results_T1_04_Single),
             "Single_T1_08_PSNR": np.mean(psnr_results_T1_08_Single),
             "Single_T1_10_PSNR": np.mean(psnr_results_T1_10_Single),
@@ -702,7 +1017,9 @@ def main():
             "Multi_T2_10_NMSE": np.mean(nmse_results_T2_10_Multi),
             "Mapping_PSNR": psnr_mean,
             "Mapping_SSIM": ssim_mean,
-            "Mapping_NMSE": nmse_mean
+            "Mapping_NMSE": nmse_mean,
+            "Num_Files":num_file_T1_04_Single+num_file_T1_08_Single+num_file_T1_10_Single+num_file_T2_04_Single+num_file_T2_08_Single+num_file_T2_10_Single+
+                        num_file_T1_04_Multi + num_file_T1_08_Multi + num_file_T1_10_Multi + num_file_T2_04_Multi + num_file_T2_08_Multi + num_file_T2_10_Multi
         }
     with open(args.results, "w") as out:
         for k, v in scores.items():
