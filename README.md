@@ -6,7 +6,7 @@ The CMRxRecon Challenge is a part of the 26th International Conference on Medica
 
 
 [Website](https://cmrxrecon.github.io/) |
-[Dataset](https://www.synapse.org/#!Synapse:syn51386469/wiki/) |
+[Dataset](https://www.synapse.org/#!Synapse:syn51471091/wiki/) |
 [GitHub](https://github.com/CmrxRecon/CMRxRecon/) |
 [Publications](#Publication-references)
 
@@ -48,6 +48,7 @@ Test data include under-sampled k-space data with acceleration factors of 4, 8 a
 * `ChallengeDataFormat`: Explain the challenge data and the rules for data submission
 * `Evaluation`: contains image quality evaluation code for validation and testing (from the FastMRI project: https://github.com/facebookresearch/fastMRI/)
 * `Mapping`: contains fitting code for T1 mapping and T2 mapping
+* `Download_Dataset_Check`: check whether the dataset is completely and rightly downloaded
 * `Submission`: contains the structure for challenge submission
 
 ## Contact
