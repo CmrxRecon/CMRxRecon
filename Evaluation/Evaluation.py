@@ -4,18 +4,13 @@ Copyright (c) Facebook, Inc. and its affiliates.
 This source code is licensed under the MIT license found in the
 LICENSE file in the root directory of this source tree.
 """
-
-import argparse
-import pathlib
-from argparse import ArgumentParser
+import os
 from typing import Optional
+import csv
+import pandas as pd
 
-import h5py
 import numpy as np
-from runstats import Statistics
 from skimage.metrics import peak_signal_noise_ratio, structural_similarity
-
-from fastmri.data import transforms
 
 
 def mse(gt: np.ndarray, pred: np.ndarray) -> np.ndarray:
@@ -41,129 +36,89 @@ def ssim(
     gt: np.ndarray, pred: np.ndarray, maxval: Optional[float] = None
 ) -> np.ndarray:
     """Compute Structural Similarity Index Metric (SSIM)"""
-    if not gt.ndim == 3:
-        raise ValueError("Unexpected number of dimensions in ground truth.")
-    if not gt.ndim == pred.ndim:
-        raise ValueError("Ground truth dimensions does not match pred.")
-
-    maxval = gt.max() if maxval is None else maxval
-
-    ssim = np.array([0])
-    for slice_num in range(gt.shape[0]):
-        ssim = ssim + structural_similarity(
-            gt[slice_num], pred[slice_num], data_range=maxval
-        )
-
-    return ssim / gt.shape[0]
+    if maxval is None:
+        maxval = gt.max()
+    return structural_similarity(gt, pred, data_range=maxval)
 
 
-METRIC_FUNCS = dict(
-    MSE=mse,
-    NMSE=nmse,
-    PSNR=psnr,
-    SSIM=ssim,
-)
+def calmetric(pred_recon, gt_recon):
+    if gt_recon.ndim == 4:
+        psnr_array = np.zeros((gt_recon.shape[-2], gt_recon.shape[-1]))
+        ssim_array = np.zeros((gt_recon.shape[-2], gt_recon.shape[-1]))
+        nmse_array = np.zeros((gt_recon.shape[-2], gt_recon.shape[-1]))
+
+        for i in range(gt_recon.shape[-2]):
+            for j in range(gt_recon.shape[-1]):
+                pred, gt = pred_recon[:, :, i, j], gt_recon[:, :, i, j]
+                psnr_array[i, j] = psnr(gt / gt.max(), pred / pred.max())
+                ssim_array[i, j] = ssim(gt / gt.max(), pred / pred.max())
+                nmse_array[i, j] = nmse(gt / gt.max(), pred / pred.max())
+    else:
+        psnr_array = np.zeros((1, gt_recon.shape[-1]))
+        ssim_array = np.zeros((1, gt_recon.shape[-1]))
+        nmse_array = np.zeros((1, gt_recon.shape[-1]))
+
+        for j in range(gt_recon.shape[-1]):
+            pred, gt = pred_recon[:, :, j], gt_recon[:, :, j]
+            psnr_array[0,j] = psnr(gt / gt.max(), pred / pred.max())
+            ssim_array[0,j] = ssim(gt / gt.max(), pred / pred.max())
+            nmse_array[0,j] = nmse(gt / gt.max(), pred / pred.max())
+
+    return psnr_array, ssim_array, nmse_array
 
 
-class Metrics:
-    """
-    Maintains running statistics for a given collection of metrics.
-    """
+def save_metric(psnr_array, ssim_array, nmse_array, folder, Sub_Task, Coil_Type):
+    Results_folder_name = Coil_Type+'_'+Sub_Task+'_Results'
+    if not os.path.exists(Results_folder_name):
+        os.makedirs(Results_folder_name)
 
-    def __init__(self, metric_funcs):
-        """
-        Args:
-            metric_funcs (dict): A dict where the keys are metric names and the
-                values are Python functions for evaluating that metric.
-        """
-        self.metrics = {metric: Statistics() for metric in metric_funcs}
+    filename  = Results_folder_name + '/' + Sub_Task + '_psnr_results.csv'
+    if not os.path.isfile(filename):
+        with open(filename, mode='a') as psnr_file:
+            writer = csv.writer(psnr_file)
+            writer.writerow(['folder', 'Sub_Task', 'PSNR'])
+    with open(filename, mode='a') as psnr_file:
+        writer = csv.writer(psnr_file)
+        writer.writerow([folder, Sub_Task, psnr_array])
 
-    def push(self, target, recons):
-        for metric, func in METRIC_FUNCS.items():
-            self.metrics[metric].push(func(target, recons))
+    filename = Results_folder_name + '/' + Sub_Task + '_ssim_results.csv'
+    if not os.path.isfile(filename):
+        with open(filename, mode='a') as ssim_file:
+            writer = csv.writer(ssim_file)
+            writer.writerow(['folder', 'Sub_Task', 'SSIM'])
+    with open(filename, mode='a') as ssim_file:
+        writer = csv.writer(ssim_file)
+        writer.writerow([folder, Sub_Task, ssim_array])
 
-    def means(self):
-        return {metric: stat.mean() for metric, stat in self.metrics.items()}
+    filename = Results_folder_name + '/' + Sub_Task + '_nmse_results.csv'
+    if not os.path.isfile(filename):
+        with open(filename, mode='a') as nmse_file:
+            writer = csv.writer(nmse_file)
+            writer.writerow(['folder', 'Sub_Task', 'NMSE'])
+    with open(filename, mode='a') as nmse_file:
+        writer = csv.writer(nmse_file)
+        writer.writerow([folder, Sub_Task, nmse_array])
 
-    def stddevs(self):
-        return {metric: stat.stddev() for metric, stat in self.metrics.items()}
-
-    def __repr__(self):
-        means = self.means()
-        stddevs = self.stddevs()
-        metric_names = sorted(list(means))
-        return " ".join(
-            f"{name} = {means[name]:.4g} +/- {2 * stddevs[name]:.4g}"
-            for name in metric_names
-        )
-
-
-def evaluate(args, recons_key):
-    metrics = Metrics(METRIC_FUNCS)
-
-    for tgt_file in args.target_path.iterdir():
-        with h5py.File(tgt_file, "r") as target, h5py.File(
-            args.predictions_path / tgt_file.name, "r"
-        ) as recons:
-            if args.acquisition and args.acquisition != target.attrs["acquisition"]:
-                continue
-
-            if args.acceleration and target.attrs["acceleration"] != args.acceleration:
-                continue
-
-            target = target[recons_key][()]
-            recons = recons["reconstruction"][()]
-            target = transforms.center_crop(
-                target, (target.shape[-1], target.shape[-1])
-            )
-            recons = transforms.center_crop(
-                recons, (target.shape[-1], target.shape[-1])
-            )
-            metrics.push(target, recons)
-
-    return metrics
+def memo_metric0(gt_recon):
+    psnr_array = np.zeros((gt_recon.shape[2], gt_recon.shape[3]))
+    ssim_array = np.zeros((gt_recon.shape[2], gt_recon.shape[3]))
+    nmse_array = np.zeros((gt_recon.shape[2], gt_recon.shape[3]))
+    return psnr_array, ssim_array, nmse_array
 
 
-if __name__ == "__main__":
-    parser = ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument(
-        "--target-path",
-        type=pathlib.Path,
-        required=True,
-        help="Path to the ground truth data",
-    )
-    parser.add_argument(
-        "--predictions-path",
-        type=pathlib.Path,
-        required=True,
-        help="Path to reconstructions",
-    )
-    parser.add_argument(
-        "--challenge",
-        choices=["singlecoil", "multicoil"],
-        required=True,
-        help="Which challenge",
-    )
-    parser.add_argument("--acceleration", type=int, default=None)
-    parser.add_argument(
-        "--acquisition",
-        choices=[
-            "CORPD_FBK",
-            "CORPDFS_FBK",
-            "AXT1",
-            "AXT1PRE",
-            "AXT1POST",
-            "AXT2",
-            "AXFLAIR",
-        ],
-        default=None,
-        help="If set, only volumes of the specified acquisition type are used "
-        "for evaluation. By default, all volumes are included.",
-    )
-    args = parser.parse_args()
+def save_df(user_input,table,processed_list, Sub_Task,Coil_Type):
+    # Save wall thickness for all the subjects
+    Results_folder_name = Coil_Type + '_' + Sub_Task + '_Results'
+    filename = Results_folder_name + '/' + Sub_Task + '_ROI_results.csv'
+    columns_list = ['Mapping_AHA_1', 'Mapping_AHA_2', 'Mapping_AHA_3',
+                    'Mapping_AHA_4', 'Mapping_AHA_5', 'Mapping_AHA_6',
+                    'Mapping_AHA_7', 'Mapping_AHA_8', 'Mapping_AHA_9',
+                    'Mapping_AHA_10', 'Mapping_AHA_11', 'Mapping_AHA_12',
+                    'Mapping_AHA_13', 'Mapping_AHA_14', 'Mapping_AHA_15', 'Mapping_AHA_16',
+                    'Mapping_Global']
+    columns_list = [user_input + '_' + s for s in columns_list]
 
-    recons_key = (
-        "reconstruction_rss" if args.challenge == "multicoil" else "reconstruction_esc"
-    )
-    metrics = evaluate(args, recons_key)
-    print(metrics)
+    df = pd.DataFrame(table, index=processed_list,
+                      columns=columns_list
+                      )
+    df.to_csv(filename)
