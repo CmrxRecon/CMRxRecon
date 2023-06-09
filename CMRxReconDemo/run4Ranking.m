@@ -18,13 +18,21 @@
 
 function img4ranking = run4Ranking(img,filetype)
 
-[sx,sy,~,sz,t] = size(img);
+[sx,sy,sz,t] = size(img);
 if strcmp(filetype,'cine_lax') || strcmp(filetype,'cine_sax')
-    reconImg = img(:,:,round(sz/2)-1:round(sz/2),1:3);
+    if sz < 3
+        reconImg = img(:,:,:,1:3);
+    else
+        reconImg = img(:,:,round(sz/2)-1:round(sz/2),1:3);
+    end
     % crop the middle 1/6 of the original image for ranking
     img4ranking = single(crop(abs(reconImg),[round(sx/3),round(sy/2),2,3]));
 else
-    reconImg = img(:,:,round(sz/2)-1:round(sz/2),:);
+    if sz < 3
+        reconImg = img;
+    else
+        reconImg = img(:,:,round(sz/2)-1:round(sz/2),:);
+    end
     % crop the middle 1/6 of the original image for ranking
     img4ranking = single(crop(abs(reconImg),[round(sx/3),round(sy/2),2,t]));
 end

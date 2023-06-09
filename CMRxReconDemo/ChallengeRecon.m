@@ -25,7 +25,11 @@ if type == 0 % show full sampled image
     for ind1 = 1:sz
         for ind2 = 1:nPhase
             img_full(:,:,:,ind1,ind2) = ifft2c(kspace_full(:,:,:,ind1,ind2));
-            img_full_sos(:,:,ind1,ind2) = sos(img_full(:,:,:,ind1,ind2));
+            if ndims(img_full(:,:,:,ind1,ind2)) >= 3
+                img_full_sos(:,:,ind1,ind2) = sos(img_full(:,:,:,ind1,ind2));
+            else
+                img_full_sos(:,:,ind1,ind2) = abs(img_full(:,:,:,ind1,ind2));
+            end
         end
     end
     if imgShow
@@ -50,7 +54,11 @@ else
         for ind1 = 1:sz
             for ind2 = 1:nPhase
                 img_zf(:,:,:,ind1,ind2) = ifft2c(kspace_sub(:,:,:,ind1,ind2));
+            if ndims(img_zf(:,:,:,ind1,ind2)) >= 3
                 img_sos(:,:,ind1,ind2) = sos(img_zf(:,:,:,ind1,ind2));
+            else
+                img_sos(:,:,ind1,ind2) = abs(img_zf(:,:,:,ind1,ind2));
+            end
             end
             disp(strcat(num2str(ind1),'/',num2str(sz)," completed!"));
         end
