@@ -66,3 +66,5 @@ return
 % -sx/3: 1/3 of the matrix size in x-axis
 % -sy/2: half of the matrix size in y-axis
 % img4ranking is the data we used for ranking!!!
+
+The file names should match the original data names with data dimensions consistent with the original data (excluding the coil dimension). For instance, if you have reconstructed data located at "MultiCoil/Mapping/ValidationSet/AccFactor10/P001/T1map.mat", you should use 'img4ranking' as the key when saving the reconstructed data.
