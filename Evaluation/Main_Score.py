@@ -925,6 +925,14 @@ def main():
         nmse_10 = get_mean_value(nmse_sax_10, nmse_lax_10)
         nmse_mean = np.mean([nmse_04, nmse_08, nmse_10])
 
+        sum_numerator = num_task_lax_04_Single + num_task_lax_08_Single + num_task_lax_10_Single + \
+            num_task_sax_04_Single + num_task_sax_08_Single + num_task_sax_10_Single + \
+            num_task_lax_04_Multi + num_task_lax_08_Multi + num_task_lax_10_Multi + \
+            num_task_sax_04_Multi + num_task_sax_08_Multi + num_task_sax_10_Multi
+        sum_denominator = num_gt_lax_04_Single + num_gt_lax_08_Single + num_gt_lax_10_Single + \
+            num_gt_sax_04_Single + num_gt_sax_08_Single + num_gt_sax_10_Single + \
+            num_gt_lax_04_Multi + num_gt_lax_08_Multi + num_gt_lax_10_Multi + \
+            num_gt_sax_04_Multi + num_gt_sax_08_Multi + num_gt_sax_10_Multi
 
         scores = {
             "num_file_Lax_04_Single": str(num_task_lax_04_Single)+ "/" + str(num_gt_lax_04_Single),
@@ -939,45 +947,46 @@ def main():
             "num_file_Sax_04_Multi": str(num_task_sax_04_Multi)+ "/" + str(num_gt_sax_04_Multi),
             "num_file_Sax_08_Multi": str(num_task_sax_08_Multi)+ "/" + str(num_gt_sax_08_Multi),
             "num_file_Sax_10_Multi": str(num_task_sax_10_Multi)+ "/" + str(num_gt_sax_10_Multi),
-            "Single_Lax_04_PSNR": np.mean(psnr_results_lax_04_Single),
-            "Single_Lax_08_PSNR": np.mean(psnr_results_lax_08_Single),
-            "Single_Lax_10_PSNR": np.mean(psnr_results_lax_10_Single),
-            "Single_Lax_04_SSIM": np.mean(ssim_results_lax_04_Single),
-            "Single_Lax_08_SSIM": np.mean(ssim_results_lax_08_Single),
-            "Single_Lax_10_SSIM": np.mean(ssim_results_lax_10_Single),
-            "Single_Lax_04_NMSE": np.mean(nmse_results_lax_04_Single),
-            "Single_Lax_08_NMSE": np.mean(nmse_results_lax_08_Single),
-            "Single_Lax_10_NMSE": np.mean(nmse_results_lax_10_Single),
-            "Multi_Lax_04_PSNR": np.mean(psnr_results_lax_04_Multi),
-            "Multi_Lax_08_PSNR": np.mean(psnr_results_lax_08_Multi),
-            "Multi_Lax_10_PSNR": np.mean(psnr_results_lax_10_Multi),
-            "Multi_Lax_04_SSIM": np.mean(ssim_results_lax_04_Multi),
-            "Multi_Lax_08_SSIM": np.mean(ssim_results_lax_08_Multi),
-            "Multi_Lax_10_SSIM": np.mean(ssim_results_lax_10_Multi),
-            "Multi_Lax_04_NMSE": np.mean(nmse_results_lax_04_Multi),
-            "Multi_Lax_08_NMSE": np.mean(nmse_results_lax_08_Multi),
-            "Multi_Lax_10_NMSE": np.mean(nmse_results_lax_10_Multi),
-            "Single_Sax_04_PSNR": np.mean(psnr_results_sax_04_Single),
-            "Single_Sax_08_PSNR": np.mean(psnr_results_sax_08_Single),
-            "Single_Sax_10_PSNR": np.mean(psnr_results_sax_10_Single),
-            "Single_Sax_04_SSIM": np.mean(ssim_results_sax_04_Single),
-            "Single_Sax_08_SSIM": np.mean(ssim_results_sax_08_Single),
-            "Single_Sax_10_SSIM": np.mean(ssim_results_sax_10_Single),
-            "Single_Sax_04_NMSE": np.mean(nmse_results_sax_04_Single),
-            "Single_Sax_08_NMSE": np.mean(nmse_results_sax_08_Single),
-            "Single_Sax_10_NMSE": np.mean(nmse_results_sax_10_Single),
-            "Multi_Sax_04_PSNR": np.mean(psnr_results_sax_04_Multi),
-            "Multi_Sax_08_PSNR": np.mean(psnr_results_sax_08_Multi),
-            "Multi_Sax_10_PSNR": np.mean(psnr_results_sax_10_Multi),
-            "Multi_Sax_04_SSIM": np.mean(ssim_results_sax_04_Multi),
-            "Multi_Sax_08_SSIM": np.mean(ssim_results_sax_08_Multi),
-            "Multi_Sax_10_SSIM": np.mean(ssim_results_sax_10_Multi),
-            "Multi_Sax_04_NMSE": np.mean(nmse_results_sax_04_Multi),
-            "Multi_Sax_08_NMSE": np.mean(nmse_results_sax_08_Multi),
-            "Multi_Sax_10_NMSE": np.mean(nmse_results_sax_10_Multi),
-            "Cine_PSNR": psnr_mean,
-            "Cine_SSIM": ssim_mean,
-            "Cine_NMSE": nmse_mean
+            "Num_Files": f'{sum_numerator}/{sum_denominator}',
+            "Single_Lax_04_PSNR": np.round(np.mean(psnr_results_lax_04_Single), 4),
+            "Single_Lax_08_PSNR": np.round(np.mean(psnr_results_lax_08_Single), 4),
+            "Single_Lax_10_PSNR": np.round(np.mean(psnr_results_lax_10_Single), 4),
+            "Single_Lax_04_SSIM": np.round(np.mean(ssim_results_lax_04_Single), 4),
+            "Single_Lax_08_SSIM": np.round(np.mean(ssim_results_lax_08_Single), 4),
+            "Single_Lax_10_SSIM": np.round(np.mean(ssim_results_lax_10_Single), 4),
+            "Single_Lax_04_NMSE": np.round(np.mean(nmse_results_lax_04_Single), 4),
+            "Single_Lax_08_NMSE": np.round(np.mean(nmse_results_lax_08_Single), 4),
+            "Single_Lax_10_NMSE": np.round(np.mean(nmse_results_lax_10_Single), 4),
+            "Multi_Lax_04_PSNR": np.round(np.mean(psnr_results_lax_04_Multi), 4),
+            "Multi_Lax_08_PSNR": np.round(np.mean(psnr_results_lax_08_Multi), 4),
+            "Multi_Lax_10_PSNR": np.round(np.mean(psnr_results_lax_10_Multi), 4),
+            "Multi_Lax_04_SSIM": np.round(np.mean(ssim_results_lax_04_Multi), 4),
+            "Multi_Lax_08_SSIM": np.round(np.mean(ssim_results_lax_08_Multi), 4),
+            "Multi_Lax_10_SSIM": np.round(np.mean(ssim_results_lax_10_Multi), 4),
+            "Multi_Lax_04_NMSE": np.round(np.mean(nmse_results_lax_04_Multi), 4),
+            "Multi_Lax_08_NMSE": np.round(np.mean(nmse_results_lax_08_Multi), 4),
+            "Multi_Lax_10_NMSE": np.round(np.mean(nmse_results_lax_10_Multi), 4),
+            "Single_Sax_04_PSNR": np.round(np.mean(psnr_results_sax_04_Single), 4),
+            "Single_Sax_08_PSNR": np.round(np.mean(psnr_results_sax_08_Single), 4),
+            "Single_Sax_10_PSNR": np.round(np.mean(psnr_results_sax_10_Single), 4),
+            "Single_Sax_04_SSIM": np.round(np.mean(ssim_results_sax_04_Single), 4),
+            "Single_Sax_08_SSIM": np.round(np.mean(ssim_results_sax_08_Single), 4),
+            "Single_Sax_10_SSIM": np.round(np.mean(ssim_results_sax_10_Single), 4),
+            "Single_Sax_04_NMSE": np.round(np.mean(nmse_results_sax_04_Single), 4),
+            "Single_Sax_08_NMSE": np.round(np.mean(nmse_results_sax_08_Single), 4),
+            "Single_Sax_10_NMSE": np.round(np.mean(nmse_results_sax_10_Single), 4),
+            "Multi_Sax_04_PSNR": np.round(np.mean(psnr_results_sax_04_Multi), 4),
+            "Multi_Sax_08_PSNR": np.round(np.mean(psnr_results_sax_08_Multi), 4),
+            "Multi_Sax_10_PSNR": np.round(np.mean(psnr_results_sax_10_Multi), 4),
+            "Multi_Sax_04_SSIM": np.round(np.mean(ssim_results_sax_04_Multi), 4),
+            "Multi_Sax_08_SSIM": np.round(np.mean(ssim_results_sax_08_Multi), 4),
+            "Multi_Sax_10_SSIM": np.round(np.mean(ssim_results_sax_10_Multi), 4),
+            "Multi_Sax_04_NMSE": np.round(np.mean(nmse_results_sax_04_Multi), 4),
+            "Multi_Sax_08_NMSE": np.round(np.mean(nmse_results_sax_08_Multi), 4),
+            "Multi_Sax_10_NMSE": np.round(np.mean(nmse_results_sax_10_Multi), 4),
+            "Cine_PSNR": np.round(psnr_mean, 4),
+            "Cine_SSIM": np.round(ssim_mean, 4),
+            "Cine_NMSE": np.round(nmse_mean, 4)
         }
     else:
         psnr_04 = get_mean_value(psnr_T1_04, psnr_T2_04)
@@ -993,6 +1002,14 @@ def main():
         nmse_10 = get_mean_value(nmse_T1_10, nmse_T2_10)
         nmse_mean = np.mean([nmse_04, nmse_08, nmse_10])
 
+        sum_numerator = num_task_T1_04_Single + num_task_T1_08_Single + num_task_T1_10_Single + \
+                        num_task_T2_04_Single + num_task_T2_08_Single + num_task_T2_10_Single + \
+                        num_task_T1_04_Multi + num_task_T1_04_Multi + num_task_T1_04_Multi + \
+                        num_task_T2_04_Multi + num_task_T2_08_Multi + num_task_T2_10_Multi
+        sum_denominator = num_gt_T1_04_Single + num_gt_T1_08_Single + num_gt_T1_10_Single + \
+                          num_gt_T2_04_Single + num_gt_T2_08_Single + num_gt_T2_10_Single + \
+                          num_gt_T1_04_Multi + num_gt_T1_08_Multi + num_gt_T1_10_Multi + \
+                          num_gt_T2_04_Multi + num_gt_T2_08_Multi + num_gt_T2_10_Multi
         scores = {
             "num_file_T1_04_Single": str(num_task_T1_04_Single)+ "/" + str(num_gt_T1_04_Single),
             "num_file_T1_08_Single": str(num_task_T1_08_Single)+ "/" + str(num_gt_T1_08_Single),
@@ -1001,55 +1018,56 @@ def main():
             "num_file_T2_08_Single": str(num_task_T2_08_Single)+ "/" + str(num_gt_T2_08_Single),
             "num_file_T2_10_Single": str(num_task_T2_10_Single)+ "/" + str(num_gt_T2_10_Single),
             "num_file_T1_04_Multi": str(num_task_T1_04_Multi)+ "/" + str(num_gt_T1_04_Multi),
-            "num_file_T1_08_Multi": str(num_task_T1_04_Multi)+ "/" + str(num_gt_T1_04_Multi),
-            "num_file_T1_10_Multi": str(num_task_T1_04_Multi)+ "/" + str(num_gt_T1_04_Multi),
+            "num_file_T1_08_Multi": str(num_task_T1_08_Multi)+ "/" + str(num_gt_T1_08_Multi),
+            "num_file_T1_10_Multi": str(num_task_T1_10_Multi)+ "/" + str(num_gt_T1_10_Multi),
             "num_file_T2_04_Multi": str(num_task_T2_04_Multi)+ "/" + str(num_gt_T2_04_Multi),
             "num_file_T2_08_Multi": str(num_task_T2_08_Multi)+ "/" + str(num_gt_T2_08_Multi),
             "num_file_T2_10_Multi": str(num_task_T2_10_Multi)+ "/" + str(num_gt_T2_10_Multi),
-            "Single_T1_04_PSNR": np.mean(psnr_results_T1_04_Single),
-            "Single_T1_08_PSNR": np.mean(psnr_results_T1_08_Single),
-            "Single_T1_10_PSNR": np.mean(psnr_results_T1_10_Single),
-            "Single_T1_04_SSIM": np.mean(ssim_results_T1_04_Single),
-            "Single_T1_08_SSIM": np.mean(ssim_results_T1_08_Single),
-            "Single_T1_10_SSIM": np.mean(ssim_results_T1_10_Single),
-            "Single_T1_04_NMSE": np.mean(nmse_results_T1_04_Single),
-            "Single_T1_08_NMSE": np.mean(nmse_results_T1_08_Single),
-            "Single_T1_10_NMSE": np.mean(nmse_results_T1_10_Single),
-            "Multi_T1_04_PSNR": np.mean(psnr_results_T1_04_Multi),
-            "Multi_T1_08_PSNR": np.mean(psnr_results_T1_08_Multi),
-            "Multi_T1_10_PSNR": np.mean(psnr_results_T1_10_Multi),
-            "Multi_T1_04_SSIM": np.mean(ssim_results_T1_04_Multi),
-            "Multi_T1_08_SSIM": np.mean(ssim_results_T1_08_Multi),
-            "Multi_T1_10_SSIM": np.mean(ssim_results_T1_10_Multi),
-            "Multi_T1_04_NMSE": np.mean(nmse_results_T1_04_Multi),
-            "Multi_T1_08_NMSE": np.mean(nmse_results_T1_08_Multi),
-            "Multi_T1_10_NMSE": np.mean(nmse_results_T1_10_Multi),
-            "Single_T2_04_PSNR": np.mean(psnr_results_T2_04_Single),
-            "Single_T2_08_PSNR": np.mean(psnr_results_T2_08_Single),
-            "Single_T2_10_PSNR": np.mean(psnr_results_T2_10_Single),
-            "Single_T2_04_SSIM": np.mean(ssim_results_T2_04_Single),
-            "Single_T2_08_SSIM": np.mean(ssim_results_T2_08_Single),
-            "Single_T2_10_SSIM": np.mean(ssim_results_T2_10_Single),
-            "Single_T2_04_NMSE": np.mean(nmse_results_T2_04_Single),
-            "Single_T2_08_NMSE": np.mean(nmse_results_T2_08_Single),
-            "Single_T2_10_NMSE": np.mean(nmse_results_T2_10_Single),
-            "Multi_T2_04_PSNR": np.mean(psnr_results_T2_04_Multi),
-            "Multi_T2_08_PSNR": np.mean(psnr_results_T2_08_Multi),
-            "Multi_T2_10_PSNR": np.mean(psnr_results_T2_10_Multi),
-            "Multi_T2_04_SSIM": np.mean(ssim_results_T2_04_Multi),
-            "Multi_T2_08_SSIM": np.mean(ssim_results_T2_08_Multi),
-            "Multi_T2_10_SSIM": np.mean(ssim_results_T2_10_Multi),
-            "Multi_T2_04_NMSE": np.mean(nmse_results_T2_04_Multi),
-            "Multi_T2_08_NMSE": np.mean(nmse_results_T2_08_Multi),
-            "Multi_T2_10_NMSE": np.mean(nmse_results_T2_10_Multi),
-            "Mapping_PSNR": psnr_mean,
-            "Mapping_SSIM": ssim_mean,
-            "Mapping_NMSE": nmse_mean
+            "Num_Files": f'{sum_numerator}/{sum_denominator}',
+            "Single_T1_04_PSNR": np.round(np.mean(psnr_results_T1_04_Single), 4),
+            "Single_T1_08_PSNR": np.round(np.mean(psnr_results_T1_08_Single), 4),
+            "Single_T1_10_PSNR": np.round(np.mean(psnr_results_T1_10_Single), 4),
+            "Single_T1_04_SSIM": np.round(np.mean(ssim_results_T1_04_Single), 4),
+            "Single_T1_08_SSIM": np.round(np.mean(ssim_results_T1_08_Single), 4),
+            "Single_T1_10_SSIM": np.round(np.mean(ssim_results_T1_10_Single), 4),
+            "Single_T1_04_NMSE": np.round(np.mean(nmse_results_T1_04_Single), 4),
+            "Single_T1_08_NMSE": np.round(np.mean(nmse_results_T1_08_Single), 4),
+            "Single_T1_10_NMSE": np.round(np.mean(nmse_results_T1_10_Single), 4),
+            "Multi_T1_04_PSNR": np.round(np.mean(psnr_results_T1_04_Multi), 4),
+            "Multi_T1_08_PSNR": np.round(np.mean(psnr_results_T1_08_Multi), 4),
+            "Multi_T1_10_PSNR": np.round(np.mean(psnr_results_T1_10_Multi), 4),
+            "Multi_T1_04_SSIM": np.round(np.mean(ssim_results_T1_04_Multi), 4),
+            "Multi_T1_08_SSIM": np.round(np.mean(ssim_results_T1_08_Multi), 4),
+            "Multi_T1_10_SSIM": np.round(np.mean(ssim_results_T1_10_Multi), 4),
+            "Multi_T1_04_NMSE": np.round(np.mean(nmse_results_T1_04_Multi), 4),
+            "Multi_T1_08_NMSE": np.round(np.mean(nmse_results_T1_08_Multi), 4),
+            "Multi_T1_10_NMSE": np.round(np.mean(nmse_results_T1_10_Multi), 4),
+            "Single_T2_04_PSNR": np.round(np.mean(psnr_results_T2_04_Single), 4),
+            "Single_T2_08_PSNR": np.round(np.mean(psnr_results_T2_08_Single), 4),
+            "Single_T2_10_PSNR": np.round(np.mean(psnr_results_T2_10_Single), 4),
+            "Single_T2_04_SSIM": np.round(np.mean(ssim_results_T2_04_Single), 4),
+            "Single_T2_08_SSIM": np.round(np.mean(ssim_results_T2_08_Single), 4),
+            "Single_T2_10_SSIM": np.round(np.mean(ssim_results_T2_10_Single), 4),
+            "Single_T2_04_NMSE": np.round(np.mean(nmse_results_T2_04_Single), 4),
+            "Single_T2_08_NMSE": np.round(np.mean(nmse_results_T2_08_Single), 4),
+            "Single_T2_10_NMSE": np.round(np.mean(nmse_results_T2_10_Single), 4),
+            "Multi_T2_04_PSNR": np.round(np.mean(psnr_results_T2_04_Multi), 4),
+            "Multi_T2_08_PSNR": np.round(np.mean(psnr_results_T2_08_Multi), 4),
+            "Multi_T2_10_PSNR": np.round(np.mean(psnr_results_T2_10_Multi), 4),
+            "Multi_T2_04_SSIM": np.round(np.mean(ssim_results_T2_04_Multi), 4),
+            "Multi_T2_08_SSIM": np.round(np.mean(ssim_results_T2_08_Multi), 4),
+            "Multi_T2_10_SSIM": np.round(np.mean(ssim_results_T2_10_Multi), 4),
+            "Multi_T2_04_NMSE": np.round(np.mean(nmse_results_T2_04_Multi), 4),
+            "Multi_T2_08_NMSE": np.round(np.mean(nmse_results_T2_08_Multi), 4),
+            "Multi_T2_10_NMSE": np.round(np.mean(nmse_results_T2_10_Multi), 4),
+            "Mapping_PSNR": np.round(psnr_mean, 4),
+            "Mapping_SSIM": np.round(ssim_mean, 4),
+            "Mapping_NMSE": np.round(nmse_mean, 4)
         }
     with open(args.results, "w") as out:
         for k, v in scores.items():
             print(type(v), v)
-            if type(v) != str and  np.isnan(v):
+            if type(v) != str and np.isnan(v):
                 scores[k] = None
         results = {
             "submission_status": "SCORED",
