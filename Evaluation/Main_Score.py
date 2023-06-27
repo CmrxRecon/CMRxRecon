@@ -56,7 +56,7 @@ def get_mean_value(value1, value2):
     elif np.isnan(value2):
         return value1
     else:
-        return value1 if value1 > value2 else value2
+        return (value1 + value2) / 2
 
 def get_mean_max_value(value1, value2):
     mean_value1 = np.nanmean(value1)
@@ -926,28 +926,28 @@ def main():
         nmse_mean = np.mean([nmse_04, nmse_08, nmse_10])
 
         sum_numerator = num_task_lax_04_Single + num_task_lax_08_Single + num_task_lax_10_Single + \
-            num_task_sax_04_Single + num_task_sax_08_Single + num_task_sax_10_Single + \
-            num_task_lax_04_Multi + num_task_lax_08_Multi + num_task_lax_10_Multi + \
-            num_task_sax_04_Multi + num_task_sax_08_Multi + num_task_sax_10_Multi
+                        num_task_sax_04_Single + num_task_sax_08_Single + num_task_sax_10_Single + \
+                        num_task_lax_04_Multi + num_task_lax_08_Multi + num_task_lax_10_Multi + \
+                        num_task_sax_04_Multi + num_task_sax_08_Multi + num_task_sax_10_Multi
         sum_denominator = num_gt_lax_04_Single + num_gt_lax_08_Single + num_gt_lax_10_Single + \
-            num_gt_sax_04_Single + num_gt_sax_08_Single + num_gt_sax_10_Single + \
-            num_gt_lax_04_Multi + num_gt_lax_08_Multi + num_gt_lax_10_Multi + \
-            num_gt_sax_04_Multi + num_gt_sax_08_Multi + num_gt_sax_10_Multi
+                          num_gt_sax_04_Single + num_gt_sax_08_Single + num_gt_sax_10_Single + \
+                          num_gt_lax_04_Multi + num_gt_lax_08_Multi + num_gt_lax_10_Multi + \
+                          num_gt_sax_04_Multi + num_gt_sax_08_Multi + num_gt_sax_10_Multi
 
         scores = {
-            "num_file_Lax_04_Single": str(num_task_lax_04_Single)+ "/" + str(num_gt_lax_04_Single),
-            "num_file_Lax_08_Single": str(num_task_lax_08_Single)+ "/" + str(num_gt_lax_08_Single),
-            "num_file_Lax_10_Single": str(num_task_lax_10_Single)+ "/" + str(num_gt_lax_10_Single),
-            "num_file_Sax_04_Single": str(num_task_sax_04_Single)+ "/" + str(num_gt_sax_04_Single),
-            "num_file_Sax_08_Single": str(num_task_sax_08_Single)+ "/" + str(num_gt_sax_08_Single),
-            "num_file_Sax_10_Single": str(num_task_sax_10_Single)+ "/" + str(num_gt_sax_10_Single),
-            "num_file_Lax_04_Multi": str(num_task_lax_04_Multi)+ "/" + str(num_gt_lax_04_Multi),
-            "num_file_Lax_08_Multi": str(num_task_lax_08_Multi)+ "/" + str(num_gt_lax_08_Multi),
-            "num_file_Lax_10_Multi": str(num_task_lax_10_Multi)+ "/" + str(num_gt_lax_10_Multi),
-            "num_file_Sax_04_Multi": str(num_task_sax_04_Multi)+ "/" + str(num_gt_sax_04_Multi),
-            "num_file_Sax_08_Multi": str(num_task_sax_08_Multi)+ "/" + str(num_gt_sax_08_Multi),
-            "num_file_Sax_10_Multi": str(num_task_sax_10_Multi)+ "/" + str(num_gt_sax_10_Multi),
-            "Num_Files": f'{sum_numerator}/{sum_denominator}',
+            "Num_Files": f'{sum_numerator}/{666}',
+            "num_file_Lax_04_Single": str(num_task_lax_04_Single)+ "/51", # + str(num_gt_lax_04_Single),
+            "num_file_Lax_08_Single": str(num_task_lax_08_Single)+ "/51",# + str(num_gt_lax_08_Single),
+            "num_file_Lax_10_Single": str(num_task_lax_10_Single)+ "/51",# + str(num_gt_lax_10_Single),
+            "num_file_Sax_04_Single": str(num_task_sax_04_Single)+ "/60",# + str(num_gt_sax_04_Single),
+            "num_file_Sax_08_Single": str(num_task_sax_08_Single)+ "/60",# + str(num_gt_sax_08_Single),
+            "num_file_Sax_10_Single": str(num_task_sax_10_Single)+ "/60",# + str(num_gt_sax_10_Single),
+            "num_file_Lax_04_Multi": str(num_task_lax_04_Multi)+ "/51",# + str(num_gt_lax_04_Multi),
+            "num_file_Lax_08_Multi": str(num_task_lax_08_Multi)+ "/51",# + str(num_gt_lax_08_Multi),
+            "num_file_Lax_10_Multi": str(num_task_lax_10_Multi)+ "/51",# + str(num_gt_lax_10_Multi),
+            "num_file_Sax_04_Multi": str(num_task_sax_04_Multi)+ "/60",# + str(num_gt_sax_04_Multi),
+            "num_file_Sax_08_Multi": str(num_task_sax_08_Multi)+ "/60",# + str(num_gt_sax_08_Multi),
+            "num_file_Sax_10_Multi": str(num_task_sax_10_Multi)+ "/60",# + str(num_gt_sax_10_Multi),
             "Single_Lax_04_PSNR": np.round(np.mean(psnr_results_lax_04_Single), 4),
             "Single_Lax_08_PSNR": np.round(np.mean(psnr_results_lax_08_Single), 4),
             "Single_Lax_10_PSNR": np.round(np.mean(psnr_results_lax_10_Single), 4),
@@ -1004,26 +1004,28 @@ def main():
 
         sum_numerator = num_task_T1_04_Single + num_task_T1_08_Single + num_task_T1_10_Single + \
                         num_task_T2_04_Single + num_task_T2_08_Single + num_task_T2_10_Single + \
-                        num_task_T1_04_Multi + num_task_T1_04_Multi + num_task_T1_04_Multi + \
+                        num_task_T1_04_Multi + num_task_T1_08_Multi + num_task_T1_10_Multi + \
                         num_task_T2_04_Multi + num_task_T2_08_Multi + num_task_T2_10_Multi
         sum_denominator = num_gt_T1_04_Single + num_gt_T1_08_Single + num_gt_T1_10_Single + \
                           num_gt_T2_04_Single + num_gt_T2_08_Single + num_gt_T2_10_Single + \
                           num_gt_T1_04_Multi + num_gt_T1_08_Multi + num_gt_T1_10_Multi + \
                           num_gt_T2_04_Multi + num_gt_T2_08_Multi + num_gt_T2_10_Multi
+
+
         scores = {
-            "num_file_T1_04_Single": str(num_task_T1_04_Single)+ "/" + str(num_gt_T1_04_Single),
-            "num_file_T1_08_Single": str(num_task_T1_08_Single)+ "/" + str(num_gt_T1_08_Single),
-            "num_file_T1_10_Single": str(num_task_T1_10_Single)+ "/" + str(num_gt_T1_10_Single),
-            "num_file_T2_04_Single": str(num_task_T2_04_Single)+ "/" + str(num_gt_T2_04_Single),
-            "num_file_T2_08_Single": str(num_task_T2_08_Single)+ "/" + str(num_gt_T2_08_Single),
-            "num_file_T2_10_Single": str(num_task_T2_10_Single)+ "/" + str(num_gt_T2_10_Single),
-            "num_file_T1_04_Multi": str(num_task_T1_04_Multi)+ "/" + str(num_gt_T1_04_Multi),
-            "num_file_T1_08_Multi": str(num_task_T1_08_Multi)+ "/" + str(num_gt_T1_08_Multi),
-            "num_file_T1_10_Multi": str(num_task_T1_10_Multi)+ "/" + str(num_gt_T1_10_Multi),
-            "num_file_T2_04_Multi": str(num_task_T2_04_Multi)+ "/" + str(num_gt_T2_04_Multi),
-            "num_file_T2_08_Multi": str(num_task_T2_08_Multi)+ "/" + str(num_gt_T2_08_Multi),
-            "num_file_T2_10_Multi": str(num_task_T2_10_Multi)+ "/" + str(num_gt_T2_10_Multi),
-            "Num_Files": f'{sum_numerator}/{sum_denominator}',
+            "Num_Files": f'{sum_numerator}/{708}',
+            "num_file_T1_04_Single": str(num_task_T1_04_Single)+ "/59", # + str(num_gt_T1_04_Single),
+            "num_file_T1_08_Single": str(num_task_T1_08_Single)+ "/59", # + str(num_gt_T1_08_Single),
+            "num_file_T1_10_Single": str(num_task_T1_10_Single)+ "/59", # + str(num_gt_T1_10_Single),
+            "num_file_T2_04_Single": str(num_task_T2_04_Single)+ "/59", # + str(num_gt_T2_04_Single),
+            "num_file_T2_08_Single": str(num_task_T2_08_Single)+ "/59", # + str(num_gt_T2_08_Single),
+            "num_file_T2_10_Single": str(num_task_T2_10_Single)+ "/59", # + str(num_gt_T2_10_Single),
+            "num_file_T1_04_Multi": str(num_task_T1_04_Multi)+ "/59", # + str(num_gt_T1_04_Multi),
+            "num_file_T1_08_Multi": str(num_task_T1_04_Multi)+ "/59", # + str(num_gt_T1_04_Multi),
+            "num_file_T1_10_Multi": str(num_task_T1_04_Multi)+ "/59", # + str(num_gt_T1_04_Multi),
+            "num_file_T2_04_Multi": str(num_task_T2_04_Multi)+ "/59", # + str(num_gt_T2_04_Multi),
+            "num_file_T2_08_Multi": str(num_task_T2_08_Multi)+ "/59", # + str(num_gt_T2_08_Multi),
+            "num_file_T2_10_Multi": str(num_task_T2_10_Multi)+ "/59", # + str(num_gt_T2_10_Multi),
             "Single_T1_04_PSNR": np.round(np.mean(psnr_results_T1_04_Single), 4),
             "Single_T1_08_PSNR": np.round(np.mean(psnr_results_T1_08_Single), 4),
             "Single_T1_10_PSNR": np.round(np.mean(psnr_results_T1_10_Single), 4),
@@ -1084,4 +1086,3 @@ if __name__ == "__main__":
     # 计算代码执行时间
     execution_time = end_time - start_time
     print("代码执行时间：", execution_time, "秒")
-
