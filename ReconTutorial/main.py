@@ -1,5 +1,9 @@
 
 # This script shows how the demo for the multi-coil recon.
+# if you have any questions, please contact me.
+# email: fanwen.wang@imperial.ac.uk
+# github: Mobbyjj
+
 import h5py
 import numpy as np
 from matplotlib import pyplot as plt
