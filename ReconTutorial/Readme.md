@@ -13,9 +13,9 @@ You can turn to main.py to see the demo recon using fastMRI or turn to CineMappi
 ## functions
 We acknowledged fastMRI repo for their utlity functions to convert k-space into image space. These functions work on PyTorch Tensors. The to_tensor function can convert Numpy arrays to PyTorch Tensors.
 
-'readfile2numpy' read the file from hdf5 to numpy complex
-'show_coils' plots several coil images 
-'fastmri.data.transform' converts from numpy array to pytorch tensor
-'fastmri.ifft2c' applies Inverse Fourier Transform to get the complex image
-'fastmri.complexabs' computes absolute value to get a real image
-'fastmri.rss' gives the coil-combined images with the specified coil dim.
+* 'readfile2numpy' read the file from hdf5 to numpy complex
+* 'show_coils' plots several coil images 
+* 'fastmri.data.transform' converts from numpy array to pytorch tensor
+* 'fastmri.ifft2c' applies Inverse Fourier Transform to get the complex image
+* 'fastmri.complexabs' computes absolute value to get a real image
+* 'fastmri.rss' gives the coil-combined images with the specified coil dim.
