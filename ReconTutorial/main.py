@@ -9,6 +9,9 @@ from fastmri.data import transforms as T
 
 # load the file
 def readfile2numpy(file_name):
+    '''
+    read the data from mat and convert to numpy array
+    '''
     hf = h5py.File(file_name)
     keys = list(hf.keys())
     assert len(keys) == 1, f"Expected only one key in file, got {len(keys)} instead"
@@ -18,6 +21,9 @@ def readfile2numpy(file_name):
 
 
 def show_coils(data, slice_nums, cmap=None, vmax = 0.0005):
+    '''
+    plot the figures along the first dims.
+    '''
     fig = plt.figure()
     for i, num in enumerate(slice_nums):
         plt.subplot(1, len(slice_nums), i + 1)
@@ -27,7 +33,7 @@ def show_coils(data, slice_nums, cmap=None, vmax = 0.0005):
 # here show the filepath of the multi-coil data
 file_name = '/media/NAS_CMR/CMRxRecon/ChallengeData/MultiCoil/Cine/TrainingSet/FullSample1/P001/cine_sax.mat'
 
-# read files from hdf5 to numpy
+# read files from mat to numpy
 fullmulti = readfile2numpy(file_name)
 
 # choose one slice
