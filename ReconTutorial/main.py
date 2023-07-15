@@ -1,5 +1,5 @@
 
-# This script shows how the demo for the multi-coil recon.
+# This script shows some functions for the multi-coil recon.
 # if you have any questions, please contact me.
 # email: fanwen.wang@imperial.ac.uk
 # github: Mobbyjj
@@ -7,6 +7,7 @@
 import h5py
 import numpy as np
 from matplotlib import pyplot as plt
+import hdf5storage
 
 import fastmri
 from fastmri.data import transforms as T
@@ -33,7 +34,16 @@ def show_coils(data, slice_nums, cmap=None, vmax = 0.0005):
         plt.subplot(1, len(slice_nums), i + 1)
         plt.imshow(data[num], cmap=cmap,vmax=vmax)
 
-
+def savenumpy2mat(data, np_var, filepath):
+    ''' 
+    np_var: str, the name of the variable in the mat file.
+    data: numpy, array to save.
+    filepath: str, the path to save the mat file.
+    '''
+    savedict= {}
+    savedict[np_var] = data
+    hdf5storage.savemat(filepath, savedict)
+    
 # here show the filepath of the multi-coil data
 file_name = '/media/NAS_CMR/CMRxRecon/ChallengeData/MultiCoil/Cine/TrainingSet/FullSample1/P001/cine_sax.mat'
 
@@ -57,3 +67,5 @@ slice_image_rss = fastmri.rss(slice_image_abs, dim=0)
 
 # plot the final images.
 plt.imshow(np.abs(slice_image_rss.numpy()), cmap='gray', vmax = 0.0015)
+# save the image to mat file.
+savenumpy2mat(slice_image_rss, 'slice_image_rss', 'slice_image_rss.mat')
