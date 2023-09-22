@@ -58,7 +58,8 @@ The code is provided to support reproducible research. If the code is giving syn
 You are free to use and/or refer to the CMRxRecon challenge and datasets in your own research after the embargo period (Dec 2023), provided that you cite the following manuscripts: 
 
 Reference of the imaging acquisition protocol: 
-1. Wang C, Li Y, Lv J, et al. Recommendation for Cardiac Magnetic Resonance Imaging-Based Phenotypic Study: Imaging Part. Phenomics. 2021, 1(4): 151-170. https://doi.org/10.1007/s43657-021-00018-x
+1. Wang C, Lyu J, Wang C, Wang S, et al. CMRxRecon: An open cardiac MRI dataset for the competition of accelerated image reconstruction.  https://doi.org/10.48550/arXiv.2309.10836
+2. Wang C, Li Y, Lv J, et al. Recommendation for Cardiac Magnetic Resonance Imaging-Based Phenotypic Study: Imaging Part. Phenomics. 2021, 1(4): 151-170. https://doi.org/10.1007/s43657-021-00018-x
 
 Other reference (optional for citation):
 1. Wang C, Jang J, Neisius U, et al. Black blood myocardial T2 mapping. Magnetic resonance in medicine. 2019, 81(1): 153-166. https://doi.org/10.1002/mrm.27360
