@@ -58,7 +58,7 @@ The code is provided to support reproducible research. If the code is giving syn
 You are free to use and/or refer to the CMRxRecon challenge and datasets in your own research after the embargo period (Dec 2023), provided that you cite the following manuscripts: 
 
 Reference of the imaging acquisition protocol: 
-1. Wang C, Lyu J, Wang C, Wang S, et al. CMRxRecon: An open cardiac MRI dataset for the competition of accelerated image reconstruction.  https://doi.org/10.48550/arXiv.2309.10836
+1. Wang C, Lyu J, Wang S, et al. CMRxRecon: An open cardiac MRI dataset for the competition of accelerated image reconstruction[J]. arXiv preprint arXiv:2309.10836, 2023.
 2. Wang C, Li Y, Lv J, et al. Recommendation for Cardiac Magnetic Resonance Imaging-Based Phenotypic Study: Imaging Part. Phenomics. 2021, 1(4): 151-170. https://doi.org/10.1007/s43657-021-00018-x
 
 Other reference (optional for citation):
