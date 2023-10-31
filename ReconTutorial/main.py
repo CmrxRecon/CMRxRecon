@@ -39,6 +39,9 @@ def savenumpy2mat(data, np_var, filepath):
     np_var: str, the name of the variable in the mat file.
     data: numpy, array to save.
     filepath: str, the path to save the mat file.
+    # attention! hdftstorage save the array in a mat file that both h5py and scipy.io.loadmat can read.
+    # but it will transpose the data array.
+    # If you want to save the file in the same way as the original mat file, please first apply np.transpose(data) 
     '''
     savedict= {}
     savedict[np_var] = data
