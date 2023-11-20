@@ -73,17 +73,17 @@ def get_mean_max_value(value1, value2):
 '''processing gz file'''
 def ungz(filename):
     gz_file = gzip.GzipFile(filename)
-    filename = filename[:-3] # gz文件的单文件解压就是去掉 filename 后面的 .gz
+    filename = filename[:-3]  # Unzipping a single file removes the .gz extension from the filename
     with open(filename, "wb+") as file:
         file.write(gz_file.read())
-        return filename  # 这个gzip的函数需要返回值以进一步配合untar函数
+        return filename  # This function needs to return the filename to further assist the untar function
 
 '''processing tar ball'''
 def untar(filename):
     tar = tarfile.open(filename)
     names = tar.getnames()
     folder_dir = '/'.join(filename.split('/')[:-1])
-    # tar本身是将文件打包,解除打包会产生很多文件,因此需要建立文件夹存放
+    # Since tar bundles multiple files, we need to create a folder to store the extracted files
     # if not os.path.isdir(folder_dir):
     #     os.mkdir(folder_dir)
     for name in names:
@@ -95,7 +95,7 @@ def untar(filename):
 def unzip(filename):
     zip_file = zipfile.ZipFile(filename)
     folder_dir = '/'.join(filename.split('/')[:-1])
-    # # 类似tar解除打包,建立文件夹存放解压的多个文件
+    # # Similar to untar, we create a folder to store the extracted files
     # if not os.path.isdir(folder_dir):
     #     os.mkdir(folder_dir)
     for names in zip_file.namelist():
@@ -134,7 +134,7 @@ def unzipfile(fpth):
             folder_dir = unrar(fpth)
             os.remove(fpth)
         else:
-            raise Exception('Not supported format')
+            raiseException('Not supported format')
         return folder_dir
     else:
         # Guess it is a zip file
@@ -142,7 +142,7 @@ def unzipfile(fpth):
         # raise Exception('Not supported format')
 
 def compare_folder_names(path1, path2):
-    # 获取路径1和路径2下的所有文件夹名字
+    # Get the folder names in path1 and path2
     if os.path.exists(path2):
         folder_names1 = [name for name in os.listdir(path1) if os.path.isdir(os.path.join(path1, name))]
         folder_names2 = [name for name in os.listdir(path2) if os.path.isdir(os.path.join(path2, name))]
@@ -155,13 +155,13 @@ def compare_folder_names(path1, path2):
         return flag, missing_folders, submit_folders
 
     submit_folders = folder_names2
-    # 比较文件夹名字是否一致
+    # Compare folder names
     if set(folder_names1) == set(folder_names2):
         flag = 4
         return flag, [], submit_folders
     else:
         missing_folders = list(set(folder_names1) - set(folder_names2))
-        flag = 0
+        flag = 1
         return flag, missing_folders, submit_folders
 
 def check_mat_files(path1, path2, folder_names, Sub_Task):
@@ -190,7 +190,7 @@ def check_mat_files(path1, path2, folder_names, Sub_Task):
                 flag = 1
                 continue
 
-            # 打开MAT文件
+            # load the mat file
             try:
                 dataset1 = loadmat(mat_file_path1)
                 gt_num_file = gt_num_file+1
@@ -202,7 +202,7 @@ def check_mat_files(path1, path2, folder_names, Sub_Task):
                 flag = 2
                 continue
 
-            # 检查数据集的大小
+            # check size of the dataset
             if len(dataset1) != len(dataset2):
                 different_sizes.append((mat_file_path2))
                 complete_folders.remove(folder_name)
@@ -227,7 +227,7 @@ def CalValue(complete_folders, gt_dir, target_dir, Sub_Task):
     PSNR_list = []
     SSIM_list = []
     NMSE_list = []
-    # 遍历文件夹并计算Metric Value
+    # Go through the folder and compute Metric Value
     for folder in complete_folders:
         if Sub_Task == 'T2map' or Sub_Task == 'T1map':
             target_path = os.path.join(target_dir, folder, Sub_Task + '.mat')
@@ -249,7 +249,7 @@ def CalValue(complete_folders, gt_dir, target_dir, Sub_Task):
     nmse_results = np.mean(NMSE_list)
     return psnr_results, ssim_results, nmse_results
 '''
-========================================= 需要上传 以下内容 ==============================================
+========================================= The following needs to be upload ==============================================
 '''
 def get_args():
     """Set up command-line interface and get arguments."""
@@ -306,12 +306,12 @@ def main():
     if args.task == 'Cine':
         Sub_Task = 'lax'
         Coil_Type = 'SingleCoil'
-        # 待比较文件的目录
+        # the directory contains files to be compared
         target_dir04 = os.path.join(data_base, Coil_Type, args.task, DataType, 'AccFactor04')
         target_dir08 = os.path.join(data_base, Coil_Type, args.task, DataType, 'AccFactor08')
         target_dir10 = os.path.join(data_base, Coil_Type, args.task, DataType, 'AccFactor10')
     
-        # 参考文件的目录
+        # the directory of reference files
         gt_dir04 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor04')
         gt_dir08 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor08')
         gt_dir10 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor10')
@@ -375,12 +375,12 @@ def main():
             complete_folders_lax_10_Single, gt_dir10, target_dir10, Sub_Task)
     
         Coil_Type = 'MultiCoil'
-        # 待比较文件的目录
+        # the directory contains files to be compared
         target_dir04 = os.path.join(data_base, Coil_Type, args.task, DataType, 'AccFactor04')
         target_dir08 = os.path.join(data_base, Coil_Type, args.task, DataType, 'AccFactor08')
         target_dir10 = os.path.join(data_base, Coil_Type, args.task, DataType, 'AccFactor10')
     
-        # 参考文件的目录
+        # the directory of reference files
         gt_dir04 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor04')
         gt_dir08 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor08')
         gt_dir10 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor10')
@@ -458,12 +458,12 @@ def main():
         
         Sub_Task = 'sax'
         Coil_Type = 'SingleCoil'
-        # 待比较文件的目录
+        # the directory contains files to be compared
         target_dir04 = os.path.join(data_base, Coil_Type, args.task, DataType, 'AccFactor04')
         target_dir08 = os.path.join(data_base, Coil_Type, args.task, DataType, 'AccFactor08')
         target_dir10 = os.path.join(data_base, Coil_Type, args.task, DataType, 'AccFactor10')
     
-        # 参考文件的目录
+        # the directory of reference files
         gt_dir04 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor04')
         gt_dir08 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor08')
         gt_dir10 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor10')
@@ -527,12 +527,12 @@ def main():
             complete_folders_sax_10_Single, gt_dir10, target_dir10, Sub_Task)
     
         Coil_Type = 'MultiCoil'
-        # 待比较文件的目录
+        # the directory contains files to be compared
         target_dir04 = os.path.join(data_base, Coil_Type, args.task, DataType, 'AccFactor04')
         target_dir08 = os.path.join(data_base, Coil_Type, args.task, DataType, 'AccFactor08')
         target_dir10 = os.path.join(data_base, Coil_Type, args.task, DataType, 'AccFactor10')
     
-        # 参考文件的目录
+        # the directory of reference files
         gt_dir04 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor04')
         gt_dir08 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor08')
         gt_dir10 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor10')
@@ -610,12 +610,12 @@ def main():
     else:
         Sub_Task = 'T1map'
         Coil_Type = 'SingleCoil'
-        # 待比较文件的目录
+        # the directory contains files to be compared
         target_dir04 = os.path.join(data_base, Coil_Type, args.task, DataType, 'AccFactor04')
         target_dir08 = os.path.join(data_base, Coil_Type, args.task, DataType, 'AccFactor08')
         target_dir10 = os.path.join(data_base, Coil_Type, args.task, DataType, 'AccFactor10')
 
-        # 参考文件的目录
+        # the directory of reference files
         gt_dir04 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor04')
         gt_dir08 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor08')
         gt_dir10 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor10')
@@ -679,12 +679,12 @@ def main():
             complete_folders_T1_10_Single, gt_dir10, target_dir10, Sub_Task)
 
         Coil_Type = 'MultiCoil'
-        # 待比较文件的目录
+        # the directory contains files to be compared
         target_dir04 = os.path.join(data_base, Coil_Type, args.task, DataType, 'AccFactor04')
         target_dir08 = os.path.join(data_base, Coil_Type, args.task, DataType, 'AccFactor08')
         target_dir10 = os.path.join(data_base, Coil_Type, args.task, DataType, 'AccFactor10')
 
-        # 参考文件的目录
+        # the directory of reference files
         gt_dir04 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor04')
         gt_dir08 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor08')
         gt_dir10 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor10')
@@ -762,12 +762,12 @@ def main():
 
         Sub_Task = 'T2map'
         Coil_Type = 'SingleCoil'
-        # 待比较文件的目录
+        # the directory contains files to be compared
         target_dir04 = os.path.join(data_base, Coil_Type, args.task, DataType, 'AccFactor04')
         target_dir08 = os.path.join(data_base, Coil_Type, args.task, DataType, 'AccFactor08')
         target_dir10 = os.path.join(data_base, Coil_Type, args.task, DataType, 'AccFactor10')
 
-        # 参考文件的目录
+        # the directory of reference files
         gt_dir04 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor04')
         gt_dir08 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor08')
         gt_dir10 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor10')
@@ -831,12 +831,12 @@ def main():
             complete_folders_T2_10_Single, gt_dir10, target_dir10, Sub_Task)
 
         Coil_Type = 'MultiCoil'
-        # 待比较文件的目录
+        # the directory contains files to be compared
         target_dir04 = os.path.join(data_base, Coil_Type, args.task, DataType, 'AccFactor04')
         target_dir08 = os.path.join(data_base, Coil_Type, args.task, DataType, 'AccFactor08')
         target_dir10 = os.path.join(data_base, Coil_Type, args.task, DataType, 'AccFactor10')
 
-        # 参考文件的目录
+        # the directory of reference files
         gt_dir04 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor04')
         gt_dir08 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor08')
         gt_dir10 = os.path.join(args.goldstandard, args.task, Coil_Type, args.task, DataType, 'AccFactor10')
@@ -1083,6 +1083,6 @@ if __name__ == "__main__":
     start_time = time.time()
     main()
     end_time = time.time()
-    # 计算代码执行时间
+    # Compute the time comsuming
     execution_time = end_time - start_time
-    print("代码执行时间：", execution_time, "秒")
+    print("Cost：", execution_time, "seconds")

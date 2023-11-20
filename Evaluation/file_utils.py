@@ -11,20 +11,19 @@ import nibabel as nib
 
 '''processing gz file'''
 def ungz(filename): 
-    gz_file = gzip.GzipFile(filename) 
-    filename = filename[:-3] # gz文件的单文件解压就是去掉 filename 后面的 .gz 
+    gz_file = gzip.GzipFile(filename)
+    #  The single file decompression of a .gz file involves removing the '.gz' extension from the filename.
+    filename = filename[:-3]
     with open(filename, "wb+") as file: 
         file.write(gz_file.read()) 
-        return filename  # 这个gzip的函数需要返回值以进一步配合untar函数 
+        # This gzip function needs to return a value to further complement the untar function.
+        return filename
 
 '''processing tar ball'''
 def untar(filename): 
     tar = tarfile.open(filename) 
     names = tar.getnames() 
     folder_dir = '/'.join(filename.split('/')[:-1])
-    # tar本身是将文件打包,解除打包会产生很多文件,因此需要建立文件夹存放 
-    # if not os.path.isdir(folder_dir): 
-    #     os.mkdir(folder_dir) 
     for name in names: 
         tar.extract(name, folder_dir) 
     tar.close() 
@@ -33,9 +32,6 @@ def untar(filename):
 def unzip(filename): 
     zip_file = zipfile.ZipFile(filename) 
     folder_dir = '/'.join(filename.split('/')[:-1])
-    # # 类似tar解除打包,建立文件夹存放解压的多个文件 
-    # if not os.path.isdir(folder_dir): 
-    #     os.mkdir(folder_dir) 
     for names in zip_file.namelist(): 
         zip_file.extract(names, folder_dir) 
     zip_file.close() 
