@@ -1,3 +1,27 @@
 [submodule "ModelPool/ModelPool/Direct"]
 	path = ModelPool/ModelPool/Direct
 	url = https://github.com/NKI-AI/direct
+[submodule "ModelPool/Direct"]
+	path = ModelPool/Direct
+	url = https://github.com/NKI-AI/direct
+[submodule "ModelPool/clair"]
+	path = ModelPool/clair
+	url = https://github.com/lpzhang/ktCLAIR
+[submodule "ModelPool/SkolCIG"]
+	path = ModelPool/SkolCIG
+	url = https://github.com/Airplaneless/cmrx
+[submodule "ModelPool/Edipo"]
+	path = ModelPool/Edipo
+	url = https://github.com/vios-s/CMRxRECON_Challenge_EDIPO
+[submodule "ModelPool/hkforest"]
+	path = ModelPool/hkforest
+	url = https://github.com/xmed-lab/DiffCMR
+[submodule "ModelPool/insightdcu"]
+	path = ModelPool/insightdcu
+	url = https://github.com/juliadietlmeier/CMRxRecon_insightdcu
+[submodule "ModelPool/IADI-IMI"]
+	path = ModelPool/IADI-IMI
+	url = https://github.com/MDL-UzL/CineJENSE
+[submodule "ModelPool/sunnybrook"]
+	path = ModelPool/sunnybrook
+	url = https://github.com/WrightGroupSRI/CMRxRecon
