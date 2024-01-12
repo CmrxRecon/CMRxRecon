@@ -1,0 +1,3 @@
+[submodule "ModelPool/ModelPool/Direct"]
+	path = ModelPool/ModelPool/Direct
+	url = https://github.com/NKI-AI/direct
