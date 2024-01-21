@@ -69,7 +69,7 @@ It contains a comprehensive collection of models developed independently by diff
 
 6. **metaffine
     - 📄 [Cite] Accelerating Cardiac MRI via Deblurring without Sensitivity Estimation, *Jin He, Weizhou Liu, Yun Tian, Shifeng Zhao*
-    - 💻 [GitHub] https://github.com/Hejin9/MRI_Recon_via_Deblurring 
+    - 💻 [GitHub] https://github.com/Hejin9/MRI_Recon_via_Deblurring
 
 
 7. **Edipo
