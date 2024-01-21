@@ -12,13 +12,13 @@ clear
 
 %% add path
 % put your data directory here
-basePath = '/Users/apple/Seafile/TempData/Cardiac/RawData/Submission_GRAPPA_Task1/'; %'Submission/'
-mainSavePath = '/Users/apple/Seafile/TempData/Cardiac/RawData/Submission/'; %'Submission/'
+basePath = '/media/ssd/fanwen/CMRRecon/vali'; %'Submission/'
+mainSavePath = '/media/ssd/fanwen/CMRRecon/submitvali'; %'Submission/'
 modality = 'Mapping'; % options: 'Cine' for task1, 'Mapping' for task2
 
 %% do not make changes
 AFtype = {'AccFactor04','AccFactor08','AccFactor10'};
-setName = 'ValidationSet/'; % options: 'ValidationSet/', 'TestSet/'
+setName = 'TestSet/'; % options: 'ValidationSet/', 'TestSet/'
 if strcmp(modality,'Cine')
     ModalityName{1} = 'cine_lax';
     ModalityName{2} = 'cine_sax';

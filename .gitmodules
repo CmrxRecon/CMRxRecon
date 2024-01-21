@@ -25,3 +25,6 @@
 [submodule "ModelPool/sunnybrook"]
 	path = ModelPool/sunnybrook
 	url = https://github.com/WrightGroupSRI/CMRxRecon
+[submodule "ModelPool/MRI_Recon_via_Deblurring"]
+	path = ModelPool/MRI_Recon_via_Deblurring
+	url = https://github.com/Hejin9/MRI_Recon_via_Deblurring
