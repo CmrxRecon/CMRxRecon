@@ -28,3 +28,6 @@
 [submodule "ModelPool/metaffine"]
 	path = ModelPool/metaffine
 	url = https://github.com/Hejin9/MRI_Recon_via_Deblurring
+[submodule "ModelPool/imperial_cmr"]
+	path = ModelPool/imperial_cmr
+	url = https://github.com/Michael-Tanzer/cmr-x-recon-2023-imperial
