@@ -1,7 +1,7 @@
-# CMRxRecon
+# CMRxRecon 2023
 
 ## About
-Welcome to the Cardiac MRI Reconstruction Challenge (CMRxRecon)！  
+Welcome to the Cardiac MRI Reconstruction Challenge 2023 (CMRxRecon2023)！  
 The CMRxRecon Challenge is a part of the 26th International Conference on Medical Image Computing and Computer Assisted Intervention, MICCAI 2023, which will be held from October 8th to 12nd 2023 in Vancouver Convention Centre Canada.
 
 
