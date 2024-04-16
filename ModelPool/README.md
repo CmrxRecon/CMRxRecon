@@ -80,7 +80,7 @@ It contains a comprehensive collection of models developed independently by diff
         organization={Springer}
         }
     ```
-    - 💻 [GitHub] https://github.com/fzimmermann89/CMRxRecon/ #Not applicable
+    - 💻 [GitHub] https://github.com/fzimmermann89/CMRxRecon/
 
 
 
