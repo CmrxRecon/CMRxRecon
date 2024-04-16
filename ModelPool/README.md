@@ -53,7 +53,22 @@ It contains a comprehensive collection of models developed independently by diff
     - 💻 [GitHub] https://github.com/lpzhang/ktCLAIR
 
 
-4. **jabbers
+4. **dbmapping
+    - 📄 [Cite] Relaxometry Guided Quantitative Cardiac Magnetic Resonance Image Reconstruction, *Yidong Zhao, Yi Zhang, Qian Tao*
+    ```bibtex
+    @inproceedings{zhao2023relaxometry,
+        title={Relaxometry Guided Quantitative Cardiac Magnetic Resonance Image Reconstruction},
+        author={Zhao, Yidong and Zhang, Yi and Tao, Qian},
+        booktitle={International Workshop on Statistical Atlases and Computational Models of the Heart},
+        pages={349--358},
+        year={2023},
+        organization={Springer}
+        }
+    ```
+     - 💻 [GitHub] https://github.com/pandafriedlich/relax_qmri_recon 
+
+
+5. **jabbers
     - 📄 [Cite] NoSENSE: Learned unrolled cardiac MRI reconstruction without explicit sensitivity maps, *Felix Frederik Zimmermann; Andreas Kofler*
     ```bibtex
     @inproceedings{zimmermann2023nosense,
@@ -69,7 +84,7 @@ It contains a comprehensive collection of models developed independently by diff
 
 
 
-5. **SkolCIG
+6. **SkolCIG
     - 📄 [Cite] Learnable Objective Image Function for Accelerated MRI Reconstruction, *Artem Razumov and Dmitry V. Dylov*
     ```bibtex
     @inproceedings{razumov2023learnable,
@@ -84,7 +99,7 @@ It contains a comprehensive collection of models developed independently by diff
     - 💻 [GitHub] https://github.com/Airplaneless/cmrx
 
 
-6. **metaffine
+7. **metaffine
     - 📄 [Cite] Accelerating Cardiac MRI via Deblurring without Sensitivity Estimation, *Jin He, Weizhou Liu, Yun Tian, Shifeng Zhao*
     ```bibtex
     @inproceedings{he2023accelerating,
@@ -99,7 +114,7 @@ It contains a comprehensive collection of models developed independently by diff
     - 💻 [GitHub] https://github.com/Hejin9/MRI_Recon_via_Deblurring
 
 
-7. **Edipo
+8. **Edipo
     - 📄 [Cite] Cine cardiac MRI reconstruction using a convolutional recurrent network with refinement, *Yuyang Xue, Yuning Du, Gianluca Carloni, Eva Pachetti, Connor Jordan, Sotiorios A. Tsaftaris*
     ```bibtex
     @inproceedings{xue2023cine,
@@ -115,7 +130,7 @@ It contains a comprehensive collection of models developed independently by diff
 
 
 
-8. **hkforest
+9. **hkforest
     - 📄 [Cite] DiffCMR: Fast Cardiac MRI Reconstruction with Diffusion Probabilistic Models *Tianqi Xiang, Wenjun Yue, Yiqun Lin, Jiewen Yang, Zhenkun Wang, Xiaomeng Li*
     ```bibtex
     @inproceedings{xiang2023diffcmr,
@@ -130,7 +145,7 @@ It contains a comprehensive collection of models developed independently by diff
     - 💻 [GitHub] https://github.com/xmed-lab/DiffCMR
 
 
-9. **insightdcu
+10. **insightdcu
     - 📄 [Cite] Cardiac MRI reconstruction from undersampled k-space using double-stream IFFT and a denoising GNA-UNET pipeline, *Julia Dietlmeier, Carles Garcia-Cabrera, Anam Hashmi, Kathleen M. Curran, Noel E. O’Connor*
     ```bibtex
     @inproceedings{dietlmeier2023cardiac,
@@ -145,7 +160,7 @@ It contains a comprehensive collection of models developed independently by diff
     - 💻 [GitHub] https://github.com/juliadietlmeier/CMRxRecon_insightdcu
 
 
-10. **IADI-IMI
+11. **IADI-IMI
     - 📄 [Cite] CineJENSE: Simultaneous Cine MRI Image, *Ziad Al-Haj Hemidi, Nora Vogt, Lucile Quillien, Christian Weihsbach, Mattias P. Heinrich, Julien Oster*
     ```bibtex
     @inproceedings{al2023cinejense,
@@ -160,7 +175,7 @@ It contains a comprehensive collection of models developed independently by diff
     - 💻 [GitHub] https://github.com/MDL-UzL/CineJENSE
 
 
-11. **imperial_cmr
+12. **imperial_cmr
     - 📄 [Cite] T1/T2 relaxation temporal modelling from accelerated acquisitions using a Latent Transformer, *Michael Tänzer, Fanwen Wang, Mengyun Qiao, Wenjia Bai, Daniel Rueckert, Guang Yang, Sonia Nielles-Vallespin*
     ```bibtex
     @inproceedings{tanzer2023t1,
@@ -175,7 +190,7 @@ It contains a comprehensive collection of models developed independently by diff
     - 💻 [GitHub] https://github.com/Michael-Tanzer/cmr-x-recon-2023-imperial
 
 
-12. **sunnybrook
+13. **sunnybrook
     - 📄 [Cite] Accelerated Cardiac Parametric Mapping using Deep Learning-Refined Subspace Models, *Calder Sheagren, Brenden Kadota, Jaykumar Patel, Mark Chiew, and Graham Wright*
     ```bibtex
     @inproceedings{sheagren2023accelerated,
