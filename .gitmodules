@@ -31,9 +31,9 @@
 [submodule "ModelPool/imperial_cmr"]
 	path = ModelPool/imperial_cmr
 	url = https://github.com/Michael-Tanzer/cmr-x-recon-2023-imperial
-[submodule "jabbers"]
-	path = jabbers
-	url = https://github.com/fzimmermann89/CMRxRecon/
 [submodule "ModelPool/jabbers"]
 	path = ModelPool/jabbers
 	url = https://github.com/fzimmermann89/CMRxRecon/
+[submodule "ModelPool/dbmapping"]
+	path = ModelPool/dbmapping
+	url = https://github.com/pandafriedlich/relax_qmri_recon
