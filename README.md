@@ -56,6 +56,7 @@ The code is provided to support reproducible research. If the code is giving syn
 
 ## Publication references
 You are free to use and/or refer to the CMRxRecon challenge and datasets in your own research after the embargo period (Dec 2023), provided that you cite the following manuscripts: 
+
 **References of the CMRx Series Dataset**
 1. Wang C, Lyu J, Wang S, et al. CMRxRecon: A publicly available k-space dataset and benchmark to advance deep learning for cardiac MRI. Scientific Data, 2024, 11(1): 687. Doi: https://doi.org/10.1038/s41597-024-03525-4 
 2. Wang Z, Wang F, Qin C, et al. CMRxRecon2024: A Multimodality, Multiview k-Space Dataset Boosting Universal Machine Learning for Accelerated Cardiac MRI, Radiology: Artificial Intelligence, 2025, 7(2): e240443. Doi: https://doi.org/10.1148/ryai.240443
