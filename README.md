@@ -61,12 +61,11 @@ You are free to use and/or refer to the CMRxRecon challenge and datasets in your
 1. Wang C, Lyu J, Wang S, et al. CMRxRecon: A publicly available k-space dataset and benchmark to advance deep learning for cardiac MRI. Scientific Data, 2024, 11(1): 687. Doi: https://doi.org/10.1038/s41597-024-03525-4 
 2. Wang Z, Wang F, Qin C, et al. CMRxRecon2024: A Multimodality, Multiview k-Space Dataset Boosting Universal Machine Learning for Accelerated Cardiac MRI, Radiology: Artificial Intelligence, 2025, 7(2): e240443. Doi: https://doi.org/10.1148/ryai.240443
 3. Wang Z, Huang M, Shi Z, et al. Enabling Ultra-Fast Cardiovascular Imaging Across Heterogeneous Clinical Environments with a Generalist Foundation Model and Multimodal Database. arXiv preprint arXiv:2512.21652, 2025. Doi: https://doi.org/10.48550/arXiv.2512.21652 
-4. Wang C, Li Y, Lv J, et al. Recommendation for Cardiac Magnetic Resonance Imaging-Based Phenotypic Study: Imaging Part. Phenomics. Doi: 2021, 1(4): 151-170. https://doi.org/10.1007/s43657-021-00018-x 
 
 **CMRx Series Challenge Summary Papers**
 1. Lyu J, Qin C, Wang S, et al. The state-of-the-art in cardiac MRI reconstruction: Results of the CMRxRecon challenge in MICCAI 2023. Medical Image Analysis, 2025, 101: 103485. Doi: https://doi.org/10.1016/j.media.2025.103485 
 2. Wang K, Qin C, Shi Z, et al. Extreme cardiac MRI analysis under respiratory motion: Results of the CMRxMotion Challenge. Medical Image Analysis, 2025: 103883. Doi: https://doi.org/10.1016/j.media.2025.103883
-3. Wang F, Wang Z, Li Y, et al. Towards Modality-and Sampling-Universal Learning Strategies for Accelerating Cardiovascular Imaging: Summary of the CMRxRecon2024 Challenge. IEEE Transactions on Medical Imaging, 2025. Doi: 10.1109/TMI.2025.3641610
+3. Wang F, Wang Z, Li Y, et al. Towards Modality-and Sampling-Universal Learning Strategies for Accelerating Cardiovascular Imaging: Summary of the CMRxRecon2024 Challenge. IEEE Transactions on Medical Imaging, 2025. Doi: https://doi.org/10.1109/TMI.2025.3641610 
 
 **Reference for previously algorithms from the organizers:**
 1. Wang C, Li Y, Lv J, et al. Recommendation for Cardiac Magnetic Resonance Imaging-Based Phenotypic Study: Imaging Part. Phenomics. 2021, 1(4): 151-170. Doi: https://doi.org/10.1007/s43657-021-00018-x 
